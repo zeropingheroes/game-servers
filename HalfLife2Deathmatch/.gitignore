@@ -1,0 +1,12 @@
+server/*
+server/hl2mp/*
+server/hl2mp/cfg/*
+
+# Whitelist cfg directory
+!server/hl2mp
+!server/hl2mp/cfg
+
+# Whitelist custom config files
+!server/hl2mp/cfg/mapcycle-zph.txt
+!server/hl2mp/cfg/motd-zph.txt
+!server/hl2mp/cfg/server-zph.cfg
