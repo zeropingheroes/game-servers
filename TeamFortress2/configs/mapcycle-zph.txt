@@ -1,0 +1,1 @@
+../server/tf/cfg/mapcycle-zph.txt
