@@ -3,10 +3,10 @@ server/tf/*
 server/tf/cfg/*
 
 # Whitelist cfg directory
-!server/tf2
-!server/tf2/cfg
+!server/tf
+!server/tf/cfg
 
 # Whitelist custom config files
-!server/tf2/cfg/mapcycle-zph.txt
-!server/tf2/cfg/motd-zph.txt
-!server/tf2/cfg/server-zph.cfg
+!server/tf/cfg/mapcycle-zph.txt
+!server/tf/cfg/motd-zph.txt
+!server/tf/cfg/server-zph.cfg
