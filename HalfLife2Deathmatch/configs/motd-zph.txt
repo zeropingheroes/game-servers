@@ -1,1 +1,0 @@
-../server/hl2mp/cfg/motd-zph.txt

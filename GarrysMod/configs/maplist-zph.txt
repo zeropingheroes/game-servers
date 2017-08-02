@@ -1,1 +1,0 @@
-../server/garrysmod/cfg/maplist-zph.txt

@@ -1,1 +1,0 @@
-../server/garrysmod/data/tauntpack_loader/workshop_resources.txt
