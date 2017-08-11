@@ -1,7 +1,9 @@
 # Ignore steamcmd directory, except the downloader
-steamcmd/*
-!steamcmd/download.sh
+SteamCMD/*
+!SteamCMD/linux
+SteamCMD/linux/*
+!SteamCMD/linux/download.sh
 
 # Ignore directories named "server" as they
 # are used for storing the game server binaries
-*/server/*
+**/server/**
