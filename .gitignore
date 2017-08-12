@@ -3,6 +3,9 @@ SteamCMD/*
 !SteamCMD/linux
 SteamCMD/linux/*
 !SteamCMD/linux/download.sh
+!SteamCMD/windows
+SteamCMD/windows/*
+!SteamCMD/windows/download.bat
 
 # Ignore directories named "server" as they
 # are used for storing the game server binaries

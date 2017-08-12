@@ -1,0 +1,1 @@
+START https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip
