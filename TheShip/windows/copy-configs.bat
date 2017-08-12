@@ -1,0 +1,1 @@
+xcopy "..\configs\*" "server\*" /S
