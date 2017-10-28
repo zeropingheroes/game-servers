@@ -67,8 +67,12 @@ case $COMMAND in
 
     "launch")
         if [ -f $DIR/$GAME/launchers/$LAUNCHER.sh ]; then
-            info "Launching $GAME server with \"$LAUNCHER\" launcher"
-            launch "$DIR/$GAME/launchers/$LAUNCHER.sh" "$GAME" "$LAUNCHER"
+		if (tmux has-session -t "$session" 2> /dev/null); then
+	            error "Server $GAME-$LAUNCHER already running"
+		else
+	            info "Launching $GAME server with \"$LAUNCHER\" launcher"
+                    launch "$DIR/$GAME/launchers/$LAUNCHER.sh" "$GAME" "$LAUNCHER"
+		fi
         else
             error "Launcher \"$LAUNCHER\" for $GAME not found"
         fi
