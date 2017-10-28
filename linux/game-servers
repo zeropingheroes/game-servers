@@ -42,6 +42,14 @@ function stop {
 	tmux send-keys "^c" -t "$1-$2"
 }
 
+function server_running {
+	if (tmux has-session -t "$1" 2> /dev/null); then
+		return 0 # session exists
+	else
+		return 1 # session does not exist
+	fi
+}
+
 if [[ -z "${LAUNCHER// }" ]]; then
 	LAUNCHER="default"
 fi
@@ -53,6 +61,7 @@ case $COMMAND in
 	    source $DIR/$GAME/install.sh
 	else
             error "Installer for $GAME not found"
+            exit
 	fi
         ;;
 
@@ -62,36 +71,48 @@ case $COMMAND in
             source $DIR/$GAME/update.sh
 	else
             error "Updater for $GAME not found"
+	    exit
         fi
         ;;
 
     "launch")
         if [ -f $DIR/$GAME/launchers/$LAUNCHER.sh ]; then
-		if (tmux has-session -t "$GAME-$LAUNCHER" 2> /dev/null); then
+		if (server_running "$GAME-$LAUNCHER"); then
 	            error "Server $GAME-$LAUNCHER already running"
+		    exit
 		else
 	            info "Launching $GAME server with \"$LAUNCHER\" launcher"
                     launch "$DIR/$GAME/launchers/$LAUNCHER.sh" "$GAME" "$LAUNCHER"
 		fi
         else
             error "Launcher \"$LAUNCHER\" for $GAME not found"
+            exit
         fi
         ;;
 
     "stop")
-	info "Stopping $GAME ($LAUNCHER) server"
-	stop "$GAME" "$LAUNCHER"
-	exit
+	if ( server_running "$GAME-$LAUNCHER"); then
+		info "Stopping $GAME ($LAUNCHER) server"
+		stop "$GAME" "$LAUNCHER"
+	else
+		error "Server $GAME-$LAUNCHER not running"
+		exit
+	fi
 	;;
 
     "console")
-        info "Opening console for $GAME ($LAUNCHER) server"
-	info "Press ctrl+b and then d to exit the console but leave the server running"
-	info "If you press ctrl+c the server will stop!"
-	info "Please wait..."
-	sleep 2
-        console "$GAME" "$LAUNCHER"
-        ;;
+	if ( server_running "$GAME-$LAUNCHER"); then
+	        info "Opening console for $GAME ($LAUNCHER) server"
+		info "Press ctrl+b and then d to exit the console but leave the server running"
+		info "If you press ctrl+c the server will stop!"
+		info "Please wait..."
+		sleep 2
+        	console "$GAME" "$LAUNCHER"
+	else
+		error "Server $GAME-$LAUNCHER not running"
+		exit
+	fi
+	;;
 
     *)
         error "Unknown command: $COMMAND"
