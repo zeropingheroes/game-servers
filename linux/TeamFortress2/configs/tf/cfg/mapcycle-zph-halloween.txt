@@ -1,0 +1,14 @@
+koth_lakeside_event
+cp_manor_event
+pl_fifthcurve_event
+koth_maple_ridge_event
+pd_pit_of_death_event
+cp_gorge_event
+pl_millstone_event
+koth_moonshine_event
+cp_sunshine_event
+ctf_hellfire
+sd_doomsday_event
+plr_hightower_event
+koth_harvest_event
+koth_viaduct_event
