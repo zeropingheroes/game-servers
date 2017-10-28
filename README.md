@@ -5,27 +5,32 @@ Game server configs, launchers and downloaders for our LAN parties
 
 ### Installation
 
-1. `cd /srv/ && git clone https://github.com/zeropingheroes/game-servers.git`
+1. `apt update -y && apt install -y lib32stdc++6 lib32tinfo5 lib32ncurses5 libcurl3-gnutls:i386 unzip`
 
-2. `apt update -y && apt install -y lib32stdc++6 lib32tinfo5 lib32ncurses5 libcurl3-gnutls:i386 unzip`
+2. `cd /srv/ && git clone https://github.com/zeropingheroes/game-servers.git && cd /srv/game-servers/`
 
-3. `/srv/game-servers/install.sh`
+3. `./game-servers self-install`
 
 ### Usage
 
-Install the game server: `/srv/game-servers/game-servers [game] install`
+    $ ./game-servers
 
-Update the game server: `/srv/game-servers/game-servers [game] update`
+    Usage:
 
-Launch the game server: `/srv/game-servers/game-servers [game] launch`
+      game-servers self-install
+      game-servers self-update
 
-Open the game server's console: `/srv/game-servers/game-servers [game] console`
+      game-servers install <game1> [<game2>...]
+      game-servers install all
 
-Stop the game server: `/srv/game-servers/game-servers [game] stop`
+      game-servers update <game1> [<game2>...]
+      game-servers update all
 
-Substitute *`[game]`* for one of the included folders, for example:
+      game-servers launch <game> [<launcher>]
+      game-servers console <game> [<launcher>]
+      game-servers stop <game> [<launcher>]
 
-`/srv/game-servers/game-servers Teeworlds launch`
+      game-servers status
 
 ## Windows
 

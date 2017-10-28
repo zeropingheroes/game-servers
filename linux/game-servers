@@ -7,11 +7,31 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 source $DIR/globals
 
-GAME=${1%/}
-COMMAND=${2,,}
-LAUNCHER=${3,,}
+GAME=${2%/}
+COMMAND=${1,,}
 
 # Functions
+
+function install_game {
+    GAME=${1%/}
+    if [ -f $DIR/$GAME/install.sh ]; then
+        info "Installing $GAME server"
+        source $DIR/$GAME/install.sh
+    else
+        error "Installer for game server '$GAME' not found"
+    fi
+}
+
+function update_game {
+    GAME=${1%/}
+    if [ -f $DIR/$GAME/update.sh ]; then
+        info "Updating $GAME server"
+        source $DIR/$GAME/update.sh
+    else
+        error "Updater for game server '$GAME' not found"
+    fi
+}
+
 function launch {
 	if [ ! -d "$2/logs" ]; then
 		mkdir -p "$2/logs"
@@ -31,7 +51,7 @@ function server_running {
 	if (tmux has-session -t "$1" 2> /dev/null); then
 		return 0 # session exists
 	else
-		return 1 # session does not exist
+		return 1
 	fi
 }
 
@@ -41,50 +61,116 @@ function list_servers {
 	exit
 }
 
+function steam_username_configured {
+	if [[ ! -z "${STEAM_USERNAME// }" ]]; then
+		return 0 # steam username configured
+	else
+		return 1
+	fi
+}
 
-if [[ -z "${STEAM_USERNAME// }" ]]; then
-	error "No Setam username configured in 'game-servers/linux/global'"
-	exit
+if [ $# == 0 ]; then
+	echo "
+Usage:
+
+  game-servers self-install
+  game-servers self-update
+
+  game-servers install <game1> [<game2>...]
+  game-servers install all
+
+  game-servers update <game1> [<game2>...]
+  game-servers update all
+
+  game-servers launch <game> [<launcher>]
+  game-servers console <game> [<launcher>]
+  game-servers stop <game> [<launcher>]
+
+  game-servers status
+"
+    exit
 fi
 
-if [ $# == 1 ] && [ $GAME == "help" ]; then
-	info ""
-        info "Usage : game-servers [game server folder] [command] [launcher]"
-	info ""
-	info "Commands : install update launch console"
-	info ""
-        exit
-elif [ $# == 0 ]; then
-	list_servers
-	exit
-fi
-
-if [[ -z "${LAUNCHER// }" ]]; then
-	LAUNCHER="default"
+if [ ! steam_username_configured ]; then
+    error "No Setam username configured in 'game-servers/linux/global'"
+    exit
 fi
 
 case $COMMAND in
+    "self-install")
+	info "Downloading SteamCMD"
+	$DIR/SteamCMD/download.sh
+
+	if [ ! steam_username_configured ]; then
+		info "Please specify a Steam account which owns the games you wish to host"
+		info "Username:"
+		read STEAM_USERNAME
+		info "Adding Steam username to game-servers/linux/globals"
+		sed -i "s/STEAM_USERNAME=\"\"/STEAM_USERNAME=\"$STEAM_USERNAME\"/g" $DIR/globals
+	fi
+
+	info "Starting SteamCMD"
+	$DIR/SteamCMD/steamcmd.sh +login $STEAM_USERNAME +quit
+
+	info "Installation complete!"
+	;;
+
+    "self-update")
+	error "Not yet implemented"
+	;;
+
     "install")
-	if [ -f $DIR/$GAME/install.sh ]; then
-            info "Installing $GAME server"
-	    source $DIR/$GAME/install.sh
-	else
-            error "Installer for $GAME not found"
-            exit
+
+	# Argument is a single game
+	if [ $# == 2 ] && [ $2 != "all" ]; then
+	    install_game $2
+
+	# Argument is "all"
+	elif [ $# == 2 ] && [ "$2" == "all" ]; then
+	    info "Installing all games"
+	    for DIRECTORY in */ ; do
+		if [ "$DIRECTORY" != "SteamCMD" ]; then
+                    install_game $DIRECTORY
+                fi
+	    done
+
+	# Argument is a list of games
+	elif [ $# -gt 2 ]; then
+	    for GAME in "$@"; do
+		if [ "$GAME" != "install" ]; then
+	            install_game $GAME
+		fi
+	    done
 	fi
         ;;
 
     "update")
-        if [ -f $DIR/$GAME/update.sh ]; then
-            info "Updating $GAME server"
-            source $DIR/$GAME/update.sh
-	else
-            error "Updater for $GAME not found"
-	    exit
+       # Argument is a single game
+        if [ $# == 2 ] && [ $2 != "all" ]; then
+            update_game $2
+
+        # Argument is "all"
+        elif [ $# == 2 ] && [ "$2" == "all" ]; then
+            info "Updating all games"
+            for DIRECTORY in */ ; do
+                if [ "$DIRECTORY" != "SteamCMD" ]; then
+                    update_game $DIRECTORY
+                fi
+            done
+
+        # Argument is a list of games
+        elif [ $# -gt 2 ]; then
+            for GAME in "$@"; do
+                if [ "$GAME" != "update" ]; then
+                    update_game $GAME
+                fi
+            done
         fi
         ;;
 
     "launch")
+	GAME=${2%/}
+	LAUNCHER=${3:-default}
         if [ -f $DIR/$GAME/launchers/$LAUNCHER.sh ]; then
 		if (server_running "$GAME-$LAUNCHER"); then
 	            error "Server $GAME-$LAUNCHER already running"
@@ -99,17 +185,9 @@ case $COMMAND in
         fi
         ;;
 
-    "stop")
-	if ( server_running "$GAME-$LAUNCHER"); then
-		info "Stopping $GAME ($LAUNCHER) server"
-		stop "$GAME" "$LAUNCHER"
-	else
-		error "Server $GAME-$LAUNCHER not running"
-		exit
-	fi
-	;;
-
     "console")
+        GAME=${2%/}
+	LAUNCHER=${3:-default}
 	if ( server_running "$GAME-$LAUNCHER"); then
 	        info "Opening console for $GAME ($LAUNCHER) server"
 		info "Press ctrl+b and then d to exit the console but leave the server running"
@@ -121,6 +199,23 @@ case $COMMAND in
 		error "Server $GAME-$LAUNCHER not running"
 		exit
 	fi
+	;;
+
+    "stop")
+        GAME=${2%/}
+	LAUNCHER=${3:-default}
+	if ( server_running "$GAME-$LAUNCHER"); then
+		info "Stopping $GAME ($LAUNCHER) server"
+		stop "$GAME" "$LAUNCHER"
+	else
+		error "Server $GAME-$LAUNCHER not running"
+		exit
+	fi
+	;;
+
+    "status")
+	list_servers
+	exit
 	;;
 
     *)
