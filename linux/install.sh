@@ -6,21 +6,21 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 source $DIR/globals
 
-printf "${GREEN}Downloading SteamCMD${BLACK}\n"
+info "Downloading SteamCMD"
 
 $DIR/SteamCMD/download.sh
 
-printf "${GREEN}Starting SteamCMD${BLACK}\n"
+info "Starting SteamCMD"
 
-printf "${GREEN}Please log into a Steam account which owns the games you wish to host${BLACK}\n"
+info "Please log into a Steam account which owns the games you wish to host"
 
-printf "${GREEN}Username:${BLACK}\n"
+info "Username:"
 read STEAM_USERNAME
 
 $DIR/SteamCMD/steamcmd.sh +login $STEAM_USERNAME +quit
 
-printf "${GREEN}Adding Steam username to game-servers/linux/globals${BLACK}\n"
+info "Adding Steam username to game-servers/linux/globals"
 
 sed -i "s/STEAM_USERNAME=\"\"/STEAM_USERNAME=\"$STEAM_USERNAME\"/g" $DIR/globals
 
-printf "${GREEN}Installation complete!${BLACK}\n"
+info "Installation complete!"
