@@ -67,7 +67,7 @@ case $COMMAND in
 
     "launch")
         if [ -f $DIR/$GAME/launchers/$LAUNCHER.sh ]; then
-		if (tmux has-session -t "$session" 2> /dev/null); then
+		if (tmux has-session -t "$GAME-$LAUNCHER" 2> /dev/null); then
 	            error "Server $GAME-$LAUNCHER already running"
 		else
 	            info "Launching $GAME server with \"$LAUNCHER\" launcher"
