@@ -9,6 +9,7 @@ source $DIR/globals
 
 GAME=${1%/}
 COMMAND=${2,,}
+LAUNCHER=${3,,}
 
 if [[ -z "${STEAM_USERNAME// }" ]]; then
 	error "No Setam username configured in 'game-servers/linux/global'"
@@ -19,7 +20,7 @@ fi
 if [ $# -lt 2 ]
 then
 	info ""
-        info "Usage : game-servers [game server folder] [command]"
+        info "Usage : game-servers [game server folder] [command] [launcher]"
 	info ""
 	info "Commands : install update launch console"
 	info ""
@@ -30,16 +31,20 @@ function launch {
 	if [ ! -d "$2/logs" ]; then
 		mkdir -p "$2/logs"
 	fi
-        tmux new-session -d -s "$2" "$1" 2> "$2/logs/$2-tmux-error.log"
+        tmux new-session -d -s "$2-$3" "$1" 2> "$2/logs/$2-$3-tmux-error.log"
 }
 
 function console {
-        tmux attach-session -t "$1"
+        tmux attach-session -t "$1-$2"
 }
 
 function stop {
-	tmux send-keys "^c" -t "$1"
+	tmux send-keys "^c" -t "$1-$2"
 }
+
+if [[ -z "${LAUNCHER// }" ]]; then
+	LAUNCHER="default"
+fi
 
 case $COMMAND in
     "install")
@@ -61,26 +66,27 @@ case $COMMAND in
         ;;
 
     "launch")
-        if [ -f $DIR/$GAME/launch.sh ]; then
-            info "Launching $GAME server"
-            launch "$DIR/$GAME/launch.sh" "$GAME"
+        if [ -f $DIR/$GAME/launchers/$LAUNCHER.sh ]; then
+            info "Launching $GAME server with \"$LAUNCHER\" launcher"
+            launch "$DIR/$GAME/launchers/$LAUNCHER.sh" "$GAME" "$LAUNCHER"
         else
-            error "Launcher for $GAME not found"
+            error "Launcher \"$LAUNCHER\" for $GAME not found"
         fi
         ;;
 
     "stop")
-	info "Stopping $GAME server"
-	stop "$GAME"
+	info "Stopping $GAME ($LAUNCHER) server"
+	stop "$GAME" "$LAUNCHER"
 	exit
 	;;
 
     "console")
-        info "Opening console for $GAME server"
+        info "Opening console for $GAME ($LAUNCHER) server"
 	info "Press ctrl+b and then d to exit the console but leave the server running"
-	info "..."
+	info "If you press ctrl+c the server will stop!"
+	info "Please wait..."
 	sleep 2
-        console "$GAME"
+        console "$GAME" "$LAUNCHER"
         ;;
 
     *)
