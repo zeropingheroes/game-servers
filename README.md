@@ -21,6 +21,8 @@ Launch the game server: `/srv/game-servers/game-servers [game] launch`
 
 Open the game server's console: `/srv/game-servers/game-servers [game] console`
 
+Stop the game server: `/srv/game-servers/game-servers [game] stop`
+
 Substitute *`[game]`* for one of the included folders, for example:
 
 `/srv/game-servers/game-servers Teeworlds launch`

@@ -37,6 +37,9 @@ function console {
         tmux attach-session -t "$1"
 }
 
+function stop {
+	tmux send-keys "^c" -t "$1"
+}
 
 case $COMMAND in
     "install")
@@ -65,6 +68,12 @@ case $COMMAND in
             error "Launcher for $GAME not found"
         fi
         ;;
+
+    "stop")
+	info "Stopping $GAME server"
+	stop "$GAME"
+	exit
+	;;
 
     "console")
         info "Opening console for $GAME server"
