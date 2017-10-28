@@ -10,6 +10,11 @@ source $DIR/globals
 GAME=${1%/}
 COMMAND=${2,,}
 
+if [[ -z "${STEAM_USERNAME// }" ]]; then
+	error "No Setam username configured in 'game-servers/linux/global'"
+	exit
+fi
+
 # Check 2 arguments are given #
 if [ $# -lt 2 ]
 then
