@@ -6,69 +6,13 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 source $DIR/globals
+source $DIR/functions
 
+# Arguments
 GAME=${2%/}
 COMMAND=${1,,}
 
-# Functions
-
-function install_game {
-    GAME=${1%/}
-    if [ -f $DIR/$GAME/install.sh ]; then
-        info "Installing $GAME server"
-        source $DIR/$GAME/install.sh
-    else
-        error "Installer for game server '$GAME' not found"
-    fi
-}
-
-function update_game {
-    GAME=${1%/}
-    if [ -f $DIR/$GAME/update.sh ]; then
-        info "Updating $GAME server"
-        source $DIR/$GAME/update.sh
-    else
-        error "Updater for game server '$GAME' not found"
-    fi
-}
-
-function launch {
-	if [ ! -d "$2/logs" ]; then
-		mkdir -p "$2/logs"
-	fi
-        tmux new-session -d -s "$2-$3" "$1" 2> "$2/logs/$2-$3-tmux-error.log"
-}
-
-function console {
-        tmux attach-session -t "$1-$2"
-}
-
-function stop {
-	tmux send-keys "^c" -t "$1-$2"
-}
-
-function server_running {
-	if (tmux has-session -t "$1" 2> /dev/null); then
-		return 0 # session exists
-	else
-		return 1
-	fi
-}
-
-function list_servers {
-	info "Currently running servers:"
-	tmux list-sessions
-	exit
-}
-
-function steam_username_configured {
-	if [[ ! -z "${STEAM_USERNAME// }" ]]; then
-		return 0 # steam username configured
-	else
-		return 1
-	fi
-}
-
+# Help
 if [ $# == 0 ]; then
 	echo "
 Usage:
@@ -91,11 +35,13 @@ Usage:
     exit
 fi
 
+# Exit if Steam username not set
 if [ ! steam_username_configured ]; then
     error "No Setam username configured in 'game-servers/linux/global'"
     exit
 fi
 
+# Commands
 case $COMMAND in
     "self-install")
 	info "Downloading SteamCMD"
