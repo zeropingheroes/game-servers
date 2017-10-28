@@ -1,0 +1,75 @@
+#!/bin/bash
+
+# Abort script on first error
+set -e
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+source $DIR/globals
+
+COMMAND=$1
+
+GAME=${2%/}
+
+# Check 2 arguments are given #
+if [ $# -lt 2 ]
+then
+	info ""
+        info "Usage : game-servers [command] [game server folder]"
+	info ""
+	info "Commands : install update launch console"
+	info ""
+        exit
+fi
+
+function launch {
+        tmux new-session -d -s "$2" "$1" 2> "$2\logs\$2-tmux-error.log"
+}
+
+function console {
+        tmux attach-session -t "$1"
+}
+
+
+case $COMMAND in
+    "install")
+	if [ -f $DIR/$GAME/install.sh ]; then
+            info "Installing $GAME server"
+	    source $DIR/$GAME/install.sh
+	else
+            error "Installer for $GAME not found"
+	fi
+        ;;
+
+    "update")
+        if [ -f $DIR/$GAME/update.sh ]; then
+            info "Updating $GAME server"
+            source $DIR/$GAME/update.sh
+	else
+            error "Updater for $GAME not found"
+        fi
+        ;;
+
+    "launch")
+        if [ -f $DIR/$GAME/launch.sh ]; then
+            info "Launching $GAME server"
+            launch "$DIR/$GAME/launch.sh" "$GAME"
+        else
+            error "Launcher for $GAME not found"
+        fi
+        ;;
+
+    "console")
+        info "Opening console for $GAME server"
+	info "Press ctrl+b and then d to exit the console but leave the server running"
+	info "..."
+	sleep 2
+        console "$GAME"
+        ;;
+
+    *)
+        error "Unknown command: $COMMAND"
+	exit
+        ;;
+esac
+

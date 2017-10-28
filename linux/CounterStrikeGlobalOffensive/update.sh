@@ -1,6 +1,5 @@
 #!/bin/bash
 
-SCRIPT=$(readlink -f "$0")
-SCRIPTPATH=$(dirname "$SCRIPT")
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-../SteamCMD/steamcmd.sh +login anonymous +force_install_dir "$SCRIPTPATH/server" +app_update 740 validate +quit
+$DIR/../SteamCMD/steamcmd.sh +login anonymous +force_install_dir "$DIR/server" +app_update 740 validate +quit

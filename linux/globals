@@ -1,0 +1,17 @@
+#!/bin/bash
+
+GREEN='\033[0;32m'
+BLACK='\033[0m'
+RED='\033[0;31m'
+
+STEAM_USERNAME=""
+RCON_PASSWORD=""
+
+function info {
+	printf "${GREEN}$1${BLACK}\n"
+}
+
+function error {
+	printf "${RED}$1${BLACK}\n"
+}
+

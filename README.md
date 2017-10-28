@@ -7,26 +7,22 @@ Game server configs, launchers and downloaders for our LAN parties
 
 1. `cd /srv/ && git clone https://github.com/zeropingheroes/game-servers.git`
 
-2. `cd /srv/game-servers/SteamCMD/linux`
+2. `apt update -y && apt install -y lib32stdc++6 lib32tinfo5 lib32ncurses5 libcurl3-gnutls:i386 unzip`
 
-3. `./download.sh`
-
-4. `./steamcmd.sh +login your-username-here +quit`
+3. `/srv/game-servers/install.sh`
 
 ### Usage
 
-There is a directory for each game server. In each there are a combination of these shell scripts:
+Install the game server: `/srv/game-servers/game-servers install *game*`
 
-**`update.sh`** - Update the game server, usually using SteamCMD
+Update the game server: `/srv/game-servers/game-servers update *game*`
 
-**`download.sh`** - Download the game server, probably from a HTTP URL
+Launch the game server: `/srv/game-servers/game-servers launch *game*`
 
-**`link-configs.sh`** - Create symbolic links from the game server's `configs` directory included with this repo, to the correct location in the (installed) game server's folder. 
+Open the game server's console: `/srv/game-servers/game-servers console *game*`
 
-**`launch-*.sh`** - Launch the game server. Typically there are multiple scripts, each launching a different game type for example
+Substitute *`game`* for one of the included folders e.g. `Teeworlds`
 
 ## Windows
 
-### Installation
-
-### Usage
+...
