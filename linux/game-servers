@@ -11,22 +11,7 @@ GAME=${1%/}
 COMMAND=${2,,}
 LAUNCHER=${3,,}
 
-if [[ -z "${STEAM_USERNAME// }" ]]; then
-	error "No Setam username configured in 'game-servers/linux/global'"
-	exit
-fi
-
-# Check 2 arguments are given #
-if [ $# -lt 2 ]
-then
-	info ""
-        info "Usage : game-servers [game server folder] [command] [launcher]"
-	info ""
-	info "Commands : install update launch console"
-	info ""
-        exit
-fi
-
+# Functions
 function launch {
 	if [ ! -d "$2/logs" ]; then
 		mkdir -p "$2/logs"
@@ -49,6 +34,30 @@ function server_running {
 		return 1 # session does not exist
 	fi
 }
+
+function list_servers {
+	info "Currently running servers:"
+	tmux list-sessions
+	exit
+}
+
+
+if [[ -z "${STEAM_USERNAME// }" ]]; then
+	error "No Setam username configured in 'game-servers/linux/global'"
+	exit
+fi
+
+if [ $# == 1 ] && [ $GAME == "help" ]; then
+	info ""
+        info "Usage : game-servers [game server folder] [command] [launcher]"
+	info ""
+	info "Commands : install update launch console"
+	info ""
+        exit
+elif [ $# == 0 ]; then
+	list_servers
+	exit
+fi
 
 if [[ -z "${LAUNCHER// }" ]]; then
 	LAUNCHER="default"
