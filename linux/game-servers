@@ -7,15 +7,14 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 source $DIR/globals
 
-COMMAND=$1
-
-GAME=${2%/}
+GAME=${1%/}
+COMMAND=$2
 
 # Check 2 arguments are given #
 if [ $# -lt 2 ]
 then
 	info ""
-        info "Usage : game-servers [command] [game server folder]"
+        info "Usage : game-servers [game server folder] [command]"
 	info ""
 	info "Commands : install update launch console"
 	info ""

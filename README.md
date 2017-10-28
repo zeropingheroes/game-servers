@@ -13,15 +13,17 @@ Game server configs, launchers and downloaders for our LAN parties
 
 ### Usage
 
-Install the game server: `/srv/game-servers/game-servers install *game*`
+Install the game server: `/srv/game-servers/game-servers [game] install`
 
-Update the game server: `/srv/game-servers/game-servers update *game*`
+Update the game server: `/srv/game-servers/game-servers [game] update`
 
-Launch the game server: `/srv/game-servers/game-servers launch *game*`
+Launch the game server: `/srv/game-servers/game-servers [game] launch`
 
-Open the game server's console: `/srv/game-servers/game-servers console *game*`
+Open the game server's console: `/srv/game-servers/game-servers [game] console`
 
-Substitute *`game`* for one of the included folders e.g. `Teeworlds`
+Substitute *`[game]`* for one of the included folders, for example:
+
+`/srv/game-servers/game-servers Teeworlds launch`
 
 ## Windows
 
