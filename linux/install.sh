@@ -19,4 +19,8 @@ read STEAM_USERNAME
 
 $DIR/SteamCMD/steamcmd.sh +login $STEAM_USERNAME +quit
 
+printf "${GREEN}Adding Steam username to game-servers/linux/globals${BLACK}\n"
+
+sed -i "s/STEAM_USERNAME=\"\"/STEAM_USERNAME=\"$STEAM_USERNAME\"/g" $DIR/globals
+
 printf "${GREEN}Installation complete!${BLACK}\n"
