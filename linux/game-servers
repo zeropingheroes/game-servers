@@ -23,7 +23,10 @@ then
 fi
 
 function launch {
-        tmux new-session -d -s "$2" "$1" 2> "$2\logs\$2-tmux-error.log"
+	if [ ! -d "$2/logs" ]; then
+		mkdir -p "$2/logs"
+	fi
+        tmux new-session -d -s "$2" "$1" 2> "$2/logs/$2-tmux-error.log"
 }
 
 function console {
