@@ -3,104 +3,100 @@
 # Abort script on first error
 set -e
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-source $DIR/globals
-source $DIR/functions
-
-# Arguments
-GAME=${2%/}
-COMMAND=${1,,}
+source $SCRIPT_DIR/include
 
 # Help
 if [ $# == 0 ]; then
-	echo "
-Usage:
+    echo "
+    Usage:
 
-  game-servers self-install
-  game-servers self-update
+      game-servers self-install
+      game-servers self-update
 
-  game-servers install <game1> [<game2>...]
-  game-servers install all
+      game-servers install <game1> [<game2>...]
+      game-servers install all
 
-  game-servers update <game1> [<game2>...]
-  game-servers update all
+      game-servers update <game1> [<game2>...]
+      game-servers update all
 
-  game-servers launch <game> [<launcher>]
-  game-servers console <game> [<launcher>]
-  game-servers stop <game> [<launcher>]
+      game-servers launch <game> [<launcher>]
+      game-servers console <game> [<launcher>]
+      game-servers stop <game> [<launcher>]
 
-  game-servers status
-"
+      game-servers status
+    "
     exit
 fi
 
-# Exit if Steam username not set
-if [ ! steam_username_configured ]; then
-    error "No Setam username configured in 'game-servers/linux/global'"
-    exit
-fi
+COMMAND=${1,,}
 
 # Commands
 case $COMMAND in
+
     "self-install")
-	info "Downloading SteamCMD"
-	$DIR/SteamCMD/download.sh
+        info "Downloading SteamCMD"
+        $SCRIPT_DIR/SteamCMD/download.sh
 
-	if [ ! steam_username_configured ]; then
-		info "Please specify a Steam account which owns the games you wish to host"
-		info "Username:"
-		read STEAM_USERNAME
-		info "Adding Steam username to game-servers/linux/globals"
-		sed -i "s/STEAM_USERNAME=\"\"/STEAM_USERNAME=\"$STEAM_USERNAME\"/g" $DIR/globals
-	fi
+        if [[ -z "${STEAM_USERNAME// }" ]]; then
+            info "Please specify a Steam account which owns the games you wish to host"
+            info "Username:"
+            read STEAM_USERNAME
+            info "Adding Steam username to game-servers/linux/include"
+            sed -i "s/STEAM_USERNAME=\"\"/STEAM_USERNAME=\"$STEAM_USERNAME\"/g" $SCRIPT_DIR/include
+        fi
 
-	info "Starting SteamCMD"
-	$DIR/SteamCMD/steamcmd.sh +login $STEAM_USERNAME +quit
+        info "Starting SteamCMD"
+        $SCRIPT_DIR/SteamCMD/steamcmd.sh +login $STEAM_USERNAME +quit
 
-	info "Installation complete!"
-	;;
+        info "Installation complete!"
+        ;;
 
     "self-update")
-	error "Not yet implemented"
-	;;
+        error "Not yet implemented"
+        ;;
 
     "install")
+        # Argument is a single game
+        if [ $# == 2 ] && [ $2 != "all" ]; then
+            GAME_NAME=$2
 
-	# Argument is a single game
-	if [ $# == 2 ] && [ $2 != "all" ]; then
-	    install_game $2
+            install_game $GAME_NAME $SCRIPT_DIR
 
-	# Argument is "all"
-	elif [ $# == 2 ] && [ "$2" == "all" ]; then
-	    info "Installing all games"
-	    for DIRECTORY in */ ; do
-		if [ "$DIRECTORY" != "SteamCMD" ]; then
-                    install_game $DIRECTORY
+        # Argument is "all"
+        elif [ $# == 2 ] && [ "$2" == "all" ]; then
+            info "Installing all games"
+
+            for GAME_NAME in */ ; do
+            if [ "$GAME_NAME" != "SteamCMD" ]; then
+                        install_game $GAME_NAME $SCRIPT_DIR
+                    fi
+            done
+
+        # Argument is a list of games
+        elif [ $# -gt 2 ]; then
+            for GAME_NAME in "$@"; do
+                if [ "$GAME_NAME" != "install" ]; then
+                        install_game $GAME_NAME $SCRIPT_DIR
                 fi
-	    done
-
-	# Argument is a list of games
-	elif [ $# -gt 2 ]; then
-	    for GAME in "$@"; do
-		if [ "$GAME" != "install" ]; then
-	            install_game $GAME
-		fi
-	    done
-	fi
+            done
+        fi
         ;;
 
     "update")
        # Argument is a single game
         if [ $# == 2 ] && [ $2 != "all" ]; then
-            update_game $2
+            GAME_NAME=$2
+
+            update_game $GAME_NAME $SCRIPT_DIR
 
         # Argument is "all"
         elif [ $# == 2 ] && [ "$2" == "all" ]; then
             info "Updating all games"
-            for DIRECTORY in */ ; do
-                if [ "$DIRECTORY" != "SteamCMD" ]; then
-                    update_game $DIRECTORY
+            for GAME_NAME in */ ; do
+                if [ "$GAME_NAME" != "SteamCMD" ]; then
+                    update_game $GAME_NAME $SCRIPT_DIR
                 fi
             done
 
@@ -108,65 +104,66 @@ case $COMMAND in
         elif [ $# -gt 2 ]; then
             for GAME in "$@"; do
                 if [ "$GAME" != "update" ]; then
-                    update_game $GAME
+                    update_game $GAME $SCRIPT_DIR
                 fi
             done
         fi
         ;;
 
     "launch")
-	GAME=${2%/}
-	LAUNCHER=${3:-default}
-        if [ -f $DIR/$GAME/launchers/$LAUNCHER.sh ]; then
-		if (server_running "$GAME-$LAUNCHER"); then
-	            error "Server $GAME-$LAUNCHER already running"
-		    exit
-		else
-	            info "Launching $GAME server with \"$LAUNCHER\" launcher"
-                    launch "$DIR/$GAME/launchers/$LAUNCHER.sh" "$GAME" "$LAUNCHER"
-		fi
+        GAME_NAME=${2%/}
+        LAUNCHER_NAME=${3:-default}
+        if [ -f $SCRIPT_DIR/$GAME_NAME/launchers/$LAUNCHER_NAME.sh ]; then
+            if (server_running "$GAME_NAME-$LAUNCHER_NAME"); then
+                    error "Server $GAME_NAME-$LAUNCHER_NAME already running"
+                exit
+            else
+                    info "Launching $GAME_NAME server with \"$LAUNCHER_NAME\" launcher"
+                        launch "$SCRIPT_DIR/$GAME_NAME/launchers/$LAUNCHER_NAME.sh" "$GAME_NAME" "$LAUNCHER_NAME"
+            fi
         else
-            error "Launcher \"$LAUNCHER\" for $GAME not found"
+            error "Launcher \"$LAUNCHER_NAME\" for $GAME_NAME not found"
             exit
         fi
         ;;
 
     "console")
-        GAME=${2%/}
-	LAUNCHER=${3:-default}
-	if ( server_running "$GAME-$LAUNCHER"); then
-	        info "Opening console for $GAME ($LAUNCHER) server"
-		info "Press ctrl+b and then d to exit the console but leave the server running"
-		info "If you press ctrl+c the server will stop!"
-		info "Please wait..."
-		sleep 2
-        	console "$GAME" "$LAUNCHER"
-	else
-		error "Server $GAME-$LAUNCHER not running"
-		exit
-	fi
-	;;
+        GAME_NAME=${2%/}
+        LAUNCHER_NAME=${3:-default}
+        if ( server_running "$GAME_NAME-$LAUNCHER_NAME"); then
+                info "Opening console for $GAME_NAME ($LAUNCHER_NAME) server"
+            info "Press ctrl+b and then d to exit the console but leave the server running"
+            info "If you press ctrl+c the server will stop!"
+            info "Please wait..."
+            sleep 2
+                console "$GAME_NAME" "$LAUNCHER_NAME"
+        else
+            error "Server $GAME_NAME-$LAUNCHER_NAME not running"
+            exit
+        fi
+        ;;
 
     "stop")
-        GAME=${2%/}
-	LAUNCHER=${3:-default}
-	if ( server_running "$GAME-$LAUNCHER"); then
-		info "Stopping $GAME ($LAUNCHER) server"
-		stop "$GAME" "$LAUNCHER"
-	else
-		error "Server $GAME-$LAUNCHER not running"
-		exit
-	fi
-	;;
+        GAME_NAME=${2%/}
+        LAUNCHER_NAME=${3:-default}
+        if ( server_running "$GAME_NAME-$LAUNCHER_NAME"); then
+            info "Stopping $GAME_NAME ($LAUNCHER_NAME) server"
+            stop "$GAME_NAME" "$LAUNCHER_NAME"
+        else
+            error "Server $GAME_NAME-$LAUNCHER_NAME not running"
+            exit
+        fi
+        ;;
 
-    "status")
-	list_servers
-	exit
-	;;
+        "status")
+        list_servers
+        exit
+        ;;
 
     *)
         error "Unknown command: $COMMAND"
-	exit
+        exit
+
         ;;
 esac
 

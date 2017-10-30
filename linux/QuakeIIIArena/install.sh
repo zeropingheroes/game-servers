@@ -4,7 +4,7 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-source $DIR/../globals
+source $DIR/../include
 
 mkdir -p $DIR/server
 

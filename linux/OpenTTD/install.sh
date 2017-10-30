@@ -24,4 +24,3 @@ rm "$DIR/server/opengfx-0.5.2.tar"
 
 info "Linking config files"
 cp -rs $DIR/configs/* $DIR/server
-
