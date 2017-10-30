@@ -55,6 +55,18 @@ function update_game {
     fi
 }
 
+function remove_game {
+    GAME_NAME=${1%/}
+    GAMES_DIR=$2
+
+    if [ -d "$GAMES_DIR/$GAME_NAME/server" ]; then
+        info "Removing $GAME_NAME server"
+        rm -r "$GAMES_DIR/$GAME_NAME/server"
+    else
+        error "Game server '$GAME_NAME' not found"
+    fi
+}
+
 function server_running {
     GAME_NAME=$1
     LAUNCHER_NAME=$2

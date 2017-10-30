@@ -26,6 +26,9 @@ Game server configs, launchers and downloaders for our LAN parties
       game-servers update <game1> [<game2>...]
       game-servers update all
 
+      game-servers remove <game1> [<game2>...]
+      game-servers remove all
+
       game-servers launch <game> [<launcher>]
       game-servers console <game> [<launcher>]
       game-servers stop <game> [<launcher>]

@@ -66,19 +66,19 @@ case $COMMAND in
 
         # Argument is "all"
         elif [ $# == 2 ] && [ "$2" == "all" ]; then
-            info "Installing all games"
+            info "Installing all game servers"
 
             for GAME_NAME in */ ; do
-            if [ "$GAME_NAME" != "SteamCMD" ]; then
-                        install_game $GAME_NAME $SCRIPT_DIR
-                    fi
+                if [ $GAME_NAME != "SteamCMD/" ]; then
+                    install_game $GAME_NAME $SCRIPT_DIR
+                fi
             done
 
         # Argument is a list of games
         elif [ $# -gt 2 ]; then
             for GAME_NAME in "$@"; do
-                if [ "$GAME_NAME" != "install" ]; then
-                        install_game $GAME_NAME $SCRIPT_DIR
+                if [ $GAME_NAME != "install" ]; then
+                    install_game $GAME_NAME $SCRIPT_DIR
                 fi
             done
         fi
@@ -93,9 +93,9 @@ case $COMMAND in
 
         # Argument is "all"
         elif [ $# == 2 ] && [ "$2" == "all" ]; then
-            info "Updating all games"
+            info "Updating all game servers"
             for GAME_NAME in */ ; do
-                if [ "$GAME_NAME" != "SteamCMD" ]; then
+                if [ $GAME_NAME != "SteamCMD/" ]; then
                     update_game $GAME_NAME $SCRIPT_DIR
                 fi
             done
@@ -105,6 +105,32 @@ case $COMMAND in
             for GAME in "$@"; do
                 if [ "$GAME" != "update" ]; then
                     update_game $GAME $SCRIPT_DIR
+                fi
+            done
+        fi
+        ;;
+
+    "remove")
+       # Argument is a single game
+        if [ $# == 2 ] && [ $2 != "all" ]; then
+            GAME_NAME=$2
+
+            remove_game $GAME_NAME $SCRIPT_DIR
+
+        # Argument is "all"
+        elif [ $# == 2 ] && [ "$2" == "all" ]; then
+            info "Removing all game servers"
+            for GAME_NAME in */ ; do
+                if [ $GAME_NAME != "SteamCMD/" ]; then
+                    remove_game $GAME_NAME $SCRIPT_DIR
+                fi
+            done
+
+        # Argument is a list of games
+        elif [ $# -gt 2 ]; then
+            for GAME in "$@"; do
+                if [ "$GAME" != "remove" ]; then
+                    remove_game $GAME $SCRIPT_DIR
                 fi
             done
         fi
