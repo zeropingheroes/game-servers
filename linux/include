@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration variables
-STEAM_USERNAME="ilumos"
+STEAM_USERNAME=""
 RCON_PASSWORD=""
 
 # Do not modify anything below this point
