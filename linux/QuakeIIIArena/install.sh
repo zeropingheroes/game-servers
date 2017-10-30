@@ -4,8 +4,6 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-mkdir -p $DIR/server
-
 # Extension is .tar.bz2 but the file is not bzipped
 info "Downloading game server files"
 info "Downloading Quake III Arena"
@@ -19,6 +17,3 @@ unzip -q "$DIR/server/osp-Quake3-1.03a_full.zip" -d "$DIR/server/"
 
 info "Removing temporary files"
 rm "$DIR/server/osp-Quake3-1.03a_full.zip"
-
-info "Linking config files"
-cp -rs $DIR/configs/* $DIR/server
