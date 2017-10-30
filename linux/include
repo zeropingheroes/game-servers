@@ -11,12 +11,12 @@ RED='\033[0;31m'
 
 function info {
     MESSAGE=$1
-    printf "${GREEN}$MESSAGE${BLACK}\n"
+    printf "${GREEN}${MESSAGE}${BLACK}\n"
 }
 
 function error {
     MESSAGE=$1
-    printf "${RED}$MESSAGE${BLACK}\n"
+    printf "${RED}${MESSAGE}${BLACK}\n"
 }
 
 function install_game {
@@ -32,57 +32,24 @@ function install_game {
 }
 
 function update_game {
-    # TODO: Change so only game name is required
     GAME_NAME=${1%/}
     GAMES_DIR=$2
 
-    if [ -f $GAMES_DIR/$GAME_NAME/update.sh ]; then
+    if [ -f "$GAMES_DIR/$GAME_NAME/update.sh" ]; then
         info "Updating $GAME_NAME server"
-        source $GAMES_DIR/$GAME_NAME/update.sh
+        source "$GAMES_DIR/$GAME_NAME/update.sh"
     else
         error "Updater for game server '$GAME_NAME' not found"
     fi
 }
 
-function launch {
-    # TODO: Change so only game name and launcher name are required
-    GAME_LAUNCHER_PATH=$1
-    GAME_NAME=$2
-    LAUNCHER_NAME=$3
-
-    if [ ! -d "$GAME_NAME/logs" ]; then
-            mkdir -p "$GAME_NAME/logs"
-    fi
-    tmux new-session -d -s "$GAME_NAME-$LAUNCHER_NAME" "$GAME_LAUNCHER_PATH" 2> "$GAME_NAME/logs/$GAME_NAME-$LAUNCHER_NAME-tmux-error.log"
-}
-
-function console {
-    GAME_NAME=$1
-    LAUNCHER_NAME=$2
-
-    tmux attach-session -t "$GAME_NAME-$LAUNCHER_NAME"
-}
-
-function stop {
-    GAME_NAME=$1
-    LAUNCHER_NAME=$2
-
-    tmux send-keys "^c" -t "$GAME_NAME-$LAUNCHER_NAME"
-}
-
 function server_running {
-    # TODO: Change so game name and launcher name are required
-    SESSION_NAME=$1
+    GAME_NAME=$1
+    LAUNCHER_NAME=$2
 
-    if (tmux has-session -t "$SESSION_NAME" 2> /dev/null); then
-            return 0 # session exists
+    if (tmux has-session -t "$GAME_NAME-$LAUNCHER_NAME" 2> /dev/null); then
+        return 0 # session exists
     else
-            return 1
+        return 1
     fi
-}
-
-function list_servers {
-    info "Currently running servers:"
-    tmux list-sessions
-    exit
 }

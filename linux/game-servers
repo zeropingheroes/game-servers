@@ -113,14 +113,16 @@ case $COMMAND in
     "launch")
         GAME_NAME=${2%/}
         LAUNCHER_NAME=${3:-default}
-        if [ -f $SCRIPT_DIR/$GAME_NAME/launchers/$LAUNCHER_NAME.sh ]; then
-            if (server_running "$GAME_NAME-$LAUNCHER_NAME"); then
-                    error "Server $GAME_NAME-$LAUNCHER_NAME already running"
-                exit
-            else
-                    info "Launching $GAME_NAME server with \"$LAUNCHER_NAME\" launcher"
-                        launch "$SCRIPT_DIR/$GAME_NAME/launchers/$LAUNCHER_NAME.sh" "$GAME_NAME" "$LAUNCHER_NAME"
+
+        LAUNCH_SCRIPT="$GAME_NAME/launchers/$LAUNCHER_NAME.sh"
+        TMUX_LOG="$GAME_NAME/logs/$GAME_NAME-$LAUNCHER_NAME-tmux-error.log"
+
+        if [ -f ${LAUNCH_SCRIPT} ]; then
+            info "Launching $GAME_NAME server with \"$LAUNCHER_NAME\" launcher"
+            if [ ! -d "$GAME_NAME/logs" ]; then
+                mkdir -p "$GAME_NAME/logs"
             fi
+            tmux new-session -d -s "$GAME_NAME-$LAUNCHER_NAME" "${LAUNCH_SCRIPT}" 2> "${TMUX_LOG}"
         else
             error "Launcher \"$LAUNCHER_NAME\" for $GAME_NAME not found"
             exit
@@ -130,13 +132,13 @@ case $COMMAND in
     "console")
         GAME_NAME=${2%/}
         LAUNCHER_NAME=${3:-default}
-        if ( server_running "$GAME_NAME-$LAUNCHER_NAME"); then
-                info "Opening console for $GAME_NAME ($LAUNCHER_NAME) server"
+        if ( server_running $GAME_NAME $LAUNCHER_NAME ); then
+            info "Opening console for $GAME_NAME ($LAUNCHER_NAME) server"
             info "Press ctrl+b and then d to exit the console but leave the server running"
             info "If you press ctrl+c the server will stop!"
             info "Please wait..."
             sleep 2
-                console "$GAME_NAME" "$LAUNCHER_NAME"
+            tmux attach-session -t "$GAME_NAME-$LAUNCHER_NAME"
         else
             error "Server $GAME_NAME-$LAUNCHER_NAME not running"
             exit
@@ -146,17 +148,18 @@ case $COMMAND in
     "stop")
         GAME_NAME=${2%/}
         LAUNCHER_NAME=${3:-default}
-        if ( server_running "$GAME_NAME-$LAUNCHER_NAME"); then
+        if ( server_running $GAME_NAME $LAUNCHER_NAME ); then
             info "Stopping $GAME_NAME ($LAUNCHER_NAME) server"
-            stop "$GAME_NAME" "$LAUNCHER_NAME"
+            tmux send-keys "^c" -t "$GAME_NAME-$LAUNCHER_NAME"
         else
             error "Server $GAME_NAME-$LAUNCHER_NAME not running"
             exit
         fi
         ;;
 
-        "status")
-        list_servers
+    "status")
+        info "Currently running servers:"
+        tmux list-sessions
         exit
         ;;
 
