@@ -4,8 +4,6 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-source $DIR/../include
-
 info "Downloading game server files"
 
 $DIR/update.sh

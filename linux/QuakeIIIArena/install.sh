@@ -4,8 +4,6 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-source $DIR/../include
-
 mkdir -p $DIR/server
 
 # Extension is .tar.bz2 but the file is not bzipped

@@ -4,8 +4,6 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-source $DIR/../globals
-
 mkdir -p $DIR/server
 
 info "Downloading game server files"
