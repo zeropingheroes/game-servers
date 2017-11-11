@@ -21,6 +21,13 @@ function error {
     printf "${RED}${MESSAGE}${BLACK}\n"
 }
 
+function check_if_installed {
+    if [[ ! -f  "$SCRIPT_DIR/self-install-completed" ]]; then
+        error "Please run ./game-servers self-install first"
+        exit 1
+    fi
+}
+
 function install_game {
     GAME_NAME=${1%/}
     GAMES_DIR=$2
