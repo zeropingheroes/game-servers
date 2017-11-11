@@ -9,6 +9,8 @@ BLACK='\033[0m'
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 
+CALLED_FROM_MAIN_SCRIPT=true
+
 function info {
     MESSAGE=$1
     printf "${GREEN}${MESSAGE}${BLACK}\n"
@@ -76,4 +78,25 @@ function server_running {
     else
         return 1
     fi
+}
+
+function update_steam_game {
+    APP_ID=$1
+    GAME_DIR=$2
+    STEAM_USER=${3:-anonymous}
+
+    if [ ! -d "$GAME_DIR" ]; then
+        error "Specified game directory does not exist"
+        exit 1
+    fi
+
+    mkdir -p "$GAME_DIR/server"
+    
+    if [ $STEAM_USER = "anonymous" ]; then
+        # Steam user not specified - download as anonymous 
+        SteamCMD/steamcmd.sh +login $STEAM_USER +force_install_dir "$GAME_DIR/server" +app_update "$APP_ID" validate +quit
+    else
+        # Steam user specified - request a license for the game server
+        SteamCMD/steamcmd.sh +login $STEAM_USER +force_install_dir "$GAME_DIR/server" +app_license_request "$APP_ID" +app_update "$APP_ID" validate +quit
+    fi        
 }
