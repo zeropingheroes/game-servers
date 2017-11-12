@@ -13,3 +13,4 @@ windows/SteamCMD/*
 */logs/*
 
 */self-install-completed
+*/installation-completed
