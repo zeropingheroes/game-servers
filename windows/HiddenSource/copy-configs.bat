@@ -1,1 +1,1 @@
-xcopy "..\configs\*" "server\*" /S
+xcopy "configs\*" "server\*" /S /Y

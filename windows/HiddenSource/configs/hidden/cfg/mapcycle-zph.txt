@@ -9,4 +9,3 @@ hdn_traindepot
 ovr_derelict
 ovr_decay
 ovr_docks
-
