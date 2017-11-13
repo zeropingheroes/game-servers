@@ -37,4 +37,18 @@ Game server configs, launchers and downloaders for our LAN parties
 
 ## Windows
 
-...
+### Installation
+
+1. Run `download.bat` in `windows/SteamCMD` to download SteamCMD in the default browser
+
+2. Extract `steamcmd.zip` into `windows/SteamCMD`
+
+### Usage
+
+In each of the game folders, if present, run the following batch files in this order:
+
+1. `install.bat` - Download and install the game files (some manual extraction may be required)
+
+2. `copy-configs.bat` - Copy configuration files from the `configs/` directory in that folder into the game server's directory
+
+3. `launch.bat` - Launch the game server
