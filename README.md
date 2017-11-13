@@ -34,12 +34,18 @@ Game server configs, launchers and downloaders for our LAN parties
       game-servers stop <game> [<launcher>]
 
       game-servers status
+      
+### Editing Config files
+
+During installation, config files in each game server's `configs` directory are symlinked into the game server's folder, so you can edit the files in the `configs` directory, and the game server will pick up the changes, and the changes can be put into Git.
+
+Any new files you create will need to be manually symlinked into the game server's folder.
 
 ## Windows
 
 ### Installation
 
-1. Run `download.bat` in `windows/SteamCMD` to download SteamCMD in the default browser
+1. Run `windows/SteamCMD/download.bat`to download SteamCMD in the default browser
 
 2. Extract `steamcmd.zip` into `windows/SteamCMD`
 
@@ -52,3 +58,7 @@ In each of the game folders, if present, run the following batch files in this o
 2. `copy-configs.bat` - Copy configuration files from the `configs/` directory in that folder into the game server's directory
 
 3. `launch.bat` - Launch the game server
+
+### Editing Config files
+
+All config files in the `configs` directory are **copied** into the game server's folder, so if you update a config file, re-run `copy-configs.bat` to allow the game server to pick up the new version of the file.
