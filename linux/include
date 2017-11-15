@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration variables
-STEAM_USERNAME=""
+STEAM_USERNAME="ilumos"
 RCON_PASSWORD=""
 
 # Do not modify anything below this point
@@ -87,6 +87,7 @@ function remove_game {
     if [ -d "$GAMES_DIR/$GAME_NAME/server" ]; then
         info "Removing $GAME_NAME server"
         rm -r "$GAMES_DIR/$GAME_NAME/server"
+        rm "$GAMES_DIR/$GAME_NAME/installation-completed"
     else
         error "Game server '$GAME_NAME' not found"
     fi
