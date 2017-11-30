@@ -26,6 +26,7 @@ if [ $# == 0 ]; then
 
       game-servers launch <game> [<launcher>]
       game-servers console <game> [<launcher>]
+      game-servers restart <game> [<launcher>]
       game-servers stop <game> [<launcher>]
 
       game-servers status
@@ -184,6 +185,21 @@ case $COMMAND in
             error "Server $GAME_NAME-$LAUNCHER_NAME not running"
             exit
         fi
+        ;;
+
+   "restart")
+        check_if_installed
+
+        GAME_NAME=${2%/}
+        LAUNCHER_NAME=${3:-default}
+
+        $SCRIPT_DIR/game-servers stop $GAME_NAME $LAUNCHER_NAME
+        until ! server_running $GAME_NAME $LAUNCHER_NAME
+        do
+            sleep 0.1
+        done
+	$SCRIPT_DIR/game-servers launch $GAME_NAME $LAUNCHER_NAME
+
         ;;
 
     "stop")
