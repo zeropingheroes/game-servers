@@ -42,6 +42,20 @@ During installation, config files in each game server's `configs` directory are 
 
 Any new files you create will need to be manually symlinked into the game server's folder.
 
+### Supported Game Servers
+
+- ChivalryMedievalWarfare
+- CounterStrikeGlobalOffensive
+- GarrysMod
+- GoldeneyeSource
+- HalfLife2Deathmatch
+- JustCause2Multiplayer
+- OpenTTD
+- QuakeIIIArena
+- TeamFortress2
+- Teeworlds
+- UT2004
+
 ## Windows
 
 ### Installation
@@ -63,3 +77,10 @@ In each of the game folders, if present, run the following batch files in this o
 ### Editing Config files
 
 All config files in the `configs` directory are **copied** into the game server's folder, so if you update a config file, re-run `copy-configs.bat` to allow the game server to pick up the new version of the file.
+
+### Supported Game Servers
+
+- HiddenSource
+- TheShip
+
+(basically because they won't run on Linux...)
