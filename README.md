@@ -31,6 +31,7 @@ Game server configs, launchers and downloaders for our LAN parties
 
       game-servers launch <game> [<launcher>]
       game-servers console <game> [<launcher>]
+      game-servers restart <game> [<launcher>]
       game-servers stop <game> [<launcher>]
 
       game-servers status
