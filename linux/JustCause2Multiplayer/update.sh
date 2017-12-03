@@ -6,4 +6,4 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 update_steam_game 261140 $DIR
 
-cd $DIR git submodule update --init
+cd $DIR && git submodule update --init
