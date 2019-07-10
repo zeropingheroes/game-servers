@@ -8,15 +8,22 @@ Game server configs, launchers and downloaders for our LAN parties
 1. Install dependencies
 
 ```bash
-$ dpkg --add-architecture i386
-$ add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
-$ apt update -y 
-$ apt install -y git lib32stdc++6 lib32tinfo5 lib32ncurses5 libcurl3-gnutls:i386 libc6 libfontconfig1 libfreetype6 libgcc1 libicu55 liblzma5 liblzo2-2 libpng12-0 libsdl1.2debian libsdl1.2debian:i386 libstdc++6 libxdg-basedir1 zlib1g libstdc++5:i386 unzip p7zip-full
+sudo dpkg --add-architecture i386
+sudo add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
+sudo apt update -y 
+sudo apt install -y git lib32stdc++6 lib32tinfo5 lib32ncurses5 libcurl3-gnutls:i386 libc6 libfontconfig1 libfreetype6 libgcc1 libicu55 liblzma5 liblzo2-2 libpng12-0 libsdl1.2debian libsdl1.2debian:i386 libstdc++6 libxdg-basedir1 zlib1g libstdc++5:i386 unzip p7zip-full
 ```
 
-3. `git clone https://github.com/zeropingheroes/game-servers.git && cd game-servers/linux`
+2. Clone the project
 
-4. `./game-servers self-install`
+```bash
+git clone https://github.com/zeropingheroes/game-servers.git && cd game-servers/linux
+```
+
+3. Install the project
+```bash
+./game-servers self-install
+```
 
 ### Usage
 
