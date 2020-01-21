@@ -2,7 +2,7 @@
 SET SCRIPTPATH=%cd%
 
 echo Downloading Hidden Source
-start http://zeropingheroes.ams3.digitaloceanspaces.com/hsb4b-full.zip
+start https://drive.google.com/file/d/1-VEAtQemAetp360yaWqtdvO6XhYslZn9/view?usp=sharing
 
 echo Please extract the Hidden Source zip file to the 'server/' directory
  
