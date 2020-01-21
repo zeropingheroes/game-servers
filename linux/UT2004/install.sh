@@ -8,7 +8,7 @@ info "Downloading game server files"
 ~/go/bin/goodls -u "https://drive.google.com/file/d/1Go5XZe3cQCL0FocmxutcRoVGcCxiCU9y/view"
 
 info "Extracting game server files"
-tar -xzf "ut2004-server-3339-ultimate-linux.tar.bz2" -C "$DIR/server"
+tar -xjf "ut2004-server-3339-ultimate-linux.tar.bz2" -C "$DIR/server"
 
 info "Removing temporary files"
 rm "ut2004-server-3339-ultimate-linux.tar.bz2"
