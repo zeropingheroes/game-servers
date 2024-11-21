@@ -1,28 +1,32 @@
 # game-servers
 Game server configs, launchers and downloaders for our LAN parties
 
-## Ubuntu 18.04
+## Ubuntu 24.04
 
 ### Installation
 
 1. Install dependencies
 
 ```bash
+sudo add-apt-repository multiverse -y
 sudo dpkg --add-architecture i386
-sudo add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
-sudo apt update -y 
-sudo apt install -y git lib32stdc++6 lib32tinfo5 lib32ncurses5 libcurl3-gnutls:i386 libc6 libfontconfig1 libfreetype6 libgcc1 libicu55 liblzma5 liblzo2-2 libpng12-0 libsdl1.2debian libsdl1.2debian:i386 libstdc++6 libxdg-basedir1 zlib1g libstdc++5:i386 unzip p7zip-full golang-go
+sudo apt update
+sudo apt install steamcmd \
+                 unzip \
+                 p7zip-full \
+                 golang-go
 go get -u github.com/tanaikech/goodls
 ```
 
 2. Clone the project
 
 ```bash
-git clone https://github.com/zeropingheroes/game-servers.git && cd game-servers/linux
+git clone https://github.com/zeropingheroes/game-servers.git
 ```
 
 3. Install the project
 ```bash
+cd game-servers/linux
 ./game-servers self-install
 ```
 
