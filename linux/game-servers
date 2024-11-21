@@ -40,8 +40,6 @@ COMMAND=${1,,}
 case $COMMAND in
 
     "self-install")
-        info "Downloading SteamCMD"
-        $SCRIPT_DIR/SteamCMD/download.sh
 
         if [[ -z "${STEAM_USERNAME// }" ]]; then
             info "Please specify a Steam account which owns the games you wish to host"
@@ -52,7 +50,7 @@ case $COMMAND in
         fi
 
         info "Starting SteamCMD"
-        $SCRIPT_DIR/SteamCMD/steamcmd.sh +login $STEAM_USERNAME +quit
+        /usr/games/steamcmd +login $STEAM_USERNAME +quit
 
         touch "$SCRIPT_DIR/self-install-completed"
 
