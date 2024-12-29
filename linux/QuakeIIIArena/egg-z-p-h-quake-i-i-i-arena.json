@@ -1,0 +1,31 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2024-12-29T22:47:39+00:00",
+    "name": "ZPH Quake III Arena",
+    "author": "ilumos@gmail.com",
+    "description": null,
+    "features": null,
+    "docker_images": {
+        "ghcr.io\/ptero-eggs\/yolks:debian": "ghcr.io\/ptero-eggs\/yolks:debian"
+    },
+    "file_denylist": [],
+    "startup": ".\/ioq3ded +exec server-zph.cfg",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"AAS initialized.\"\r\n}",
+        "logs": "{}",
+        "stop": "quit"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/bash\r\n\r\napt update\r\napt install -y ioquake3-server\r\n\r\nif [ ! -d \/mnt\/server ]; then\r\n    mkdir -p \/mnt\/server\/\r\nfi\r\n\r\nmv \/usr\/lib\/ioquake3\/* \/mnt\/server\/\r\n\r\ncd \/mnt\/server\r\n\r\necho \"Downloading Q3A assets archive\"\r\ncurl -L \"https:\/\/drive.usercontent.google.com\/download?id=1ZQQZv4PT6yuSAQ5zoEgOen-sPKW9lCy2&confirm=y\" -o \"quake3-1.32-assets.zip\"\r\n\r\necho \"Extracting Q3A assets\"\r\nunzip -q -o \"quake3-1.32-assets.zip\"\r\n\r\necho \"Deleting Q3A assets archive\"\r\nrm \"quake3-1.32-assets.zip\"\r\n\r\necho \"Downloading configs\"\r\ncd \/tmp\r\ngit clone https:\/\/github.com\/zeropingheroes\/game-servers.git\r\ncp game-servers\/linux\/QuakeIIIArena\/configs\/baseq3\/* \/mnt\/server\/baseq3\/\r\n\r\necho \"Install complete\"",
+            "container": "ghcr.io\/ptero-eggs\/installers:debian",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": []
+}
