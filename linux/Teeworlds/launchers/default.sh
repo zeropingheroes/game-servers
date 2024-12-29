@@ -2,4 +2,4 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-cd $DIR/../server/tw && ./teeworlds_srv -f server-zph.cfg
+cd $DIR/../server/tw && ./teeworlds_srv
