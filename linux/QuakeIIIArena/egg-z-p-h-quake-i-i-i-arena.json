@@ -4,7 +4,7 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2024-12-29T22:47:39+00:00",
+    "exported_at": "2025-01-02T23:04:02+00:00",
     "name": "ZPH Quake III Arena",
     "author": "ilumos@gmail.com",
     "description": null,
@@ -13,7 +13,7 @@
         "ghcr.io\/ptero-eggs\/yolks:debian": "ghcr.io\/ptero-eggs\/yolks:debian"
     },
     "file_denylist": [],
-    "startup": ".\/ioq3ded +exec server-zph.cfg",
+    "startup": ".\/ioq3ded +set fs_game osp +set dedicated 1 +exec server-zph.cfg",
     "config": {
         "files": "{}",
         "startup": "{\r\n    \"done\": \"AAS initialized.\"\r\n}",
@@ -22,7 +22,7 @@
     },
     "scripts": {
         "installation": {
-            "script": "#!\/bin\/bash\r\n\r\napt update\r\napt install -y ioquake3-server\r\n\r\nif [ ! -d \/mnt\/server ]; then\r\n    mkdir -p \/mnt\/server\/\r\nfi\r\n\r\nmv \/usr\/lib\/ioquake3\/* \/mnt\/server\/\r\n\r\ncd \/mnt\/server\r\n\r\necho \"Downloading Q3A assets archive\"\r\ncurl -L \"https:\/\/drive.usercontent.google.com\/download?id=1ZQQZv4PT6yuSAQ5zoEgOen-sPKW9lCy2&confirm=y\" -o \"quake3-1.32-assets.zip\"\r\n\r\necho \"Extracting Q3A assets\"\r\nunzip -q -o \"quake3-1.32-assets.zip\"\r\n\r\necho \"Deleting Q3A assets archive\"\r\nrm \"quake3-1.32-assets.zip\"\r\n\r\necho \"Downloading configs\"\r\ncd \/tmp\r\ngit clone https:\/\/github.com\/zeropingheroes\/game-servers.git\r\ncp game-servers\/linux\/QuakeIIIArena\/configs\/baseq3\/* \/mnt\/server\/baseq3\/\r\n\r\necho \"Install complete\"",
+            "script": "#!\/bin\/bash\r\n\r\nif [ ! -f \"\/mnt\/server\/ioq3ded\" ]; then\r\n    apt update\r\n    apt install -y ioquake3-server\r\n    cp -r \/usr\/lib\/ioquake3\/* \/mnt\/server\/\r\nfi\r\n\r\nif [ ! -d \/mnt\/server\/.egg-install ]; then\r\n    mkdir -p \/mnt\/server\/.egg-install\r\nfi\r\n\r\ncd \/mnt\/server\/.egg-install\r\n\r\nif [ ! -f \"quake3-1.32-assets.zip\" ]; then\r\n    echo \"Downloading Q3A assets archive\"\r\n    curl -sSL \"https:\/\/drive.usercontent.google.com\/download?id=1ZQQZv4PT6yuSAQ5zoEgOen-sPKW9lCy2&confirm=y\" -o \"quake3-1.32-assets.zip\"\r\nfi\r\necho \"Extracting Q3A assets\"\r\nunzip -q -o \"quake3-1.32-assets.zip\" -d \"\/mnt\/server\/\"\r\n\r\nif [ ! -f \"osp-Quake3-1.03a_full.zip\" ]; then\r\n    echo \"Downloading Q3A OSP mod\"\r\n    curl -sSL \"https:\/\/drive.usercontent.google.com\/download?id=1RrHzS_FpERtNDYxqflnijlT9gbmsEH5U&confirm=y\" -o \"osp-Quake3-1.03a_full.zip\"\r\nfi\r\necho \"Extracting OSP mod\"\r\nunzip -q -o \"osp-Quake3-1.03a_full.zip\" -d \"\/mnt\/server\/\"\r\n\r\nif [ ! -d \/mnt\/server\/.egg-install\/zeropingheroes\/game-servers ]; then\r\n    echo \"Downloading configs\"\r\n    mkdir -p \/mnt\/server\/.egg-install\/zeropingheroes\/\r\n    cd \/mnt\/server\/.egg-install\/zeropingheroes\/\r\n    git clone https:\/\/github.com\/zeropingheroes\/game-servers.git\r\nfi\r\necho \"Copying configs\"\r\ncp -r \/mnt\/server\/.egg-install\/zeropingheroes\/game-servers\/linux\/QuakeIIIArena\/configs\/* \/mnt\/server\/\r\n\r\necho \"Install complete\"\r\necho \"To force a full reinstall, delete the .egg-install directory\"",
             "container": "ghcr.io\/ptero-eggs\/installers:debian",
             "entrypoint": "bash"
         }
