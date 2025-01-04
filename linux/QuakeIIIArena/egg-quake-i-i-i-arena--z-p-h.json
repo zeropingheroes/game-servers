@@ -4,8 +4,8 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2025-01-02T23:04:02+00:00",
-    "name": "ZPH Quake III Arena",
+    "exported_at": "2025-01-04T23:14:16+00:00",
+    "name": "Quake III Arena (ZPH)",
     "author": "ilumos@gmail.com",
     "description": null,
     "features": null,
@@ -13,7 +13,7 @@
         "ghcr.io\/ptero-eggs\/yolks:debian": "ghcr.io\/ptero-eggs\/yolks:debian"
     },
     "file_denylist": [],
-    "startup": ".\/ioq3ded +set fs_game osp +set dedicated 1 +exec server-zph.cfg",
+    "startup": ".\/ioq3ded +set fs_game osp +set dedicated 1 +set net_port {{SERVER_PORT}} +exec server-zph.cfg",
     "config": {
         "files": "{}",
         "startup": "{\r\n    \"done\": \"AAS initialized.\"\r\n}",
