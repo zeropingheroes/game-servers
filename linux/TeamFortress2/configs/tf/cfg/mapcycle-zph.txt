@@ -1,4 +1,4 @@
-koth_sawmill
+koth_harvest_final
 pl_frontier_final
 cp_5gorge
 pl_upward
@@ -24,7 +24,7 @@ koth_nucleus
 koth_viaduct
 ctf_sawmill
 cp_yukon_final
-koth_harvest_final
+koth_sawmill
 ctf_doublecross
 cp_gorge
 cp_freight_final1
