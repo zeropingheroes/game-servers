@@ -21,7 +21,7 @@ go install github.com/tanaikech/goodls@latest
 2. Clone the project
 
 ```bash
-git clone https://github.com/zeropingheroes/game-servers.git
+git clone git@github.com:zeropingheroes/game-servers.git
 ```
 
 3. Install the project
