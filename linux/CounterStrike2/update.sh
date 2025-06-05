@@ -4,4 +4,4 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-update_steam_game 740 $DIR
+update_steam_game 730 $DIR

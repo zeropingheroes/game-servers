@@ -1,0 +1,83 @@
+"GameModes_Server.txt"
+{
+    "mapgroups"
+    {
+        "mg_zph_wingman"
+        {
+            "name" "mg_zph_wingman"
+            "maps"
+            {
+                "de_brewery" ""
+                "de_dogtown" ""
+                "de_inferno" ""
+                "de_nuke" ""
+                "de_overpass" ""
+                "de_vertigo" ""
+            }
+        }
+        "mg_zph_casual_hostage"
+        {
+            "name" "mg_zph_casual_hostage"
+            "maps"
+            {
+                "cs_agency" ""
+                "cs_italy" ""
+                "cs_office" ""
+            }
+        }
+        "mg_zph_deathmatch"
+        {
+            "name" "mg_zph_deathmatch"
+            "maps"
+            {
+                "ar_baggage" ""
+                "ar_pool_day" ""
+                "ar_shoots" ""
+                "cs_agency" ""
+                "cs_italy" ""
+                "cs_office" ""
+                "de_ancient" ""
+                "de_anubis" ""
+                "de_basalt" ""
+                "de_brewery" ""
+                "de_dogtown" ""
+                "de_dust2" ""
+                "de_edin" ""
+                "de_grail" ""
+                "de_inferno" ""
+                "de_jura" ""
+                "de_mirage" ""
+                "de_nuke" ""
+                "de_overpass" ""
+                "de_palais" ""
+                "de_train" ""
+                "de_vertigo" ""
+                "de_whistle" ""
+            }
+        }
+        "mg_zph_casual_demolition"
+        {
+            "name" "mg_zph_casual_demolition"
+            "maps"
+            {
+                "de_ancient" ""
+                "de_anubis" ""
+                "de_basalt" ""
+                "de_brewery" ""
+                "de_dogtown" ""
+                "de_dust2" ""
+                "de_edin" ""
+                "de_grail" ""
+                "de_inferno" ""
+                "de_jura" ""
+                "de_mirage" ""
+                "de_nuke" ""
+                "de_overpass" ""
+                "de_palais" ""
+                "de_train" ""
+                "de_vertigo" ""
+                "de_whistle" ""
+            }
+        }
+    }
+}
