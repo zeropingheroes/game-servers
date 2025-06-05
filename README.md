@@ -15,7 +15,7 @@ sudo apt install steamcmd \
                  unzip \
                  p7zip-full \
                  golang-go
-go get -u github.com/tanaikech/goodls
+go install github.com/tanaikech/goodls@latest
 ```
 
 2. Clone the project
