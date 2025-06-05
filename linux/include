@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Configuration variables
-STEAM_USERNAME="ilumos"
-RCON_PASSWORD=""
-
 # Do not modify anything below this point
 BLACK='\033[0m'
 GREEN='\033[0;32m'
