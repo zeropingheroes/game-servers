@@ -161,6 +161,11 @@ case $COMMAND in
                 mkdir -p "$GAME_NAME/logs"
             fi
             tmux new-session -d -s "$GAME_NAME-$LAUNCHER_NAME" "${LAUNCH_SCRIPT}" 2> "${TMUX_LOG}"
+            warning "To exit the console and leave the server running, press ctrl+b and then d"
+            warning "If you press ctrl+c, the server will stop!"
+            read -n 1 -s -r -p "Press any key to open the console..."
+            echo
+            tmux attach-session -t "$GAME_NAME-$LAUNCHER_NAME"
         else
             error "Launcher \"$LAUNCHER_NAME\" for $GAME_NAME not found"
             exit
@@ -174,10 +179,10 @@ case $COMMAND in
         LAUNCHER_NAME=${3:-default}
         if ( server_running $GAME_NAME $LAUNCHER_NAME ); then
             info "Opening console for $GAME_NAME ($LAUNCHER_NAME) server"
-            info "Press ctrl+b and then d to exit the console but leave the server running"
-            info "If you press ctrl+c the server will stop!"
-            info "Please wait..."
-            sleep 2
+            warning "To exit the console and leave the server running, press ctrl+b and then d"
+            warning "If you press ctrl+c, the server will stop!"
+            read -n 1 -s -r -p "Press any key to open the console..."
+            echo
             tmux attach-session -t "$GAME_NAME-$LAUNCHER_NAME"
         else
             error "Server $GAME_NAME-$LAUNCHER_NAME not running"

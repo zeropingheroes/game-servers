@@ -4,12 +4,18 @@
 BLACK='\033[0m'
 GREEN='\033[0;32m'
 RED='\033[0;31m'
+ORANGE='\033[38;5;208m'
 
 CALLED_FROM_MAIN_SCRIPT=true
 
 function info {
     MESSAGE=$1
     printf "${GREEN}${MESSAGE}${BLACK}\n"
+}
+
+function warning {
+    MESSAGE=$1
+    printf "${ORANGE}${MESSAGE}${BLACK}\n"
 }
 
 function error {
