@@ -1,8 +1,8 @@
-[submodule "linux/JustCause2Multiplayer/configs/scripts/AdvancedBuyMenu"]
-	path = linux/JustCause2Multiplayer/configs/scripts/AdvancedBuyMenu
+[submodule "JustCause2Multiplayer/configs/scripts/AdvancedBuyMenu"]
+	path = JustCause2Multiplayer/configs/scripts/AdvancedBuyMenu
 	url = https://github.com/Jasonmrc/AdvancedBuyMenu.git
 	branch = master
-[submodule "linux/JustCause2Multiplayer/configs/scripts/boost_lite"]
-	path = linux/JustCause2Multiplayer/configs/scripts/boost_lite
+[submodule "JustCause2Multiplayer/configs/scripts/boost_lite"]
+	path = JustCause2Multiplayer/configs/scripts/boost_lite
 	url = https://github.com/jc2mp/boost_lite.git
 	branch = master

@@ -1,9 +1,11 @@
 # game-servers
-Game server configs, launchers and downloaders for our LAN parties
+Game server configs, launchers and downloaders for our LAN parties.
 
-## Ubuntu 24.04
+## Requirements
 
-### Installation
+* Ubuntu 24.04
+
+## Installation
 
 1. Install dependencies
 
@@ -26,11 +28,11 @@ git clone git@github.com:zeropingheroes/game-servers.git
 
 3. Install the project
 ```bash
-cd game-servers/linux
+cd game-servers
 ./game-servers self-install
 ```
 
-### Usage
+## Usage
 
     $ ./game-servers
 
@@ -55,51 +57,8 @@ cd game-servers/linux
 
       game-servers status
       
-### Editing Config files
+## Editing Config files
 
 During installation, config files in each game server's `configs` directory are symlinked into the game server's folder, so you can edit the files in the `configs` directory, and the game server will pick up the changes, and the changes can be put into Git.
 
 Any new files you create will need to be manually symlinked into the game server's folder.
-
-### Supported Game Servers
-
-- ChivalryMedievalWarfare
-- CounterStrikeGlobalOffensive
-- GarrysMod
-- GoldeneyeSource
-- HalfLife2Deathmatch
-- JustCause2Multiplayer
-- OpenTTD
-- QuakeIIIArena
-- TeamFortress2
-- Teeworlds
-- UT2004
-
-## Windows
-
-### Installation
-
-1. Run `windows/SteamCMD/download.bat`to download SteamCMD in the default browser
-
-2. Extract `steamcmd.zip` into `windows/SteamCMD`
-
-### Usage
-
-In each of the game folders, if present, run the following batch files in this order:
-
-1. `install.bat` - Download and install the game files (some manual extraction may be required)
-
-2. `copy-configs.bat` - Copy configuration files from the `configs/` directory in that folder into the game server's directory
-
-3. `launch.bat` - Launch the game server
-
-### Editing Config files
-
-All config files in the `configs` directory are **copied** into the game server's folder, so if you update a config file, re-run `copy-configs.bat` to allow the game server to pick up the new version of the file.
-
-### Supported Game Servers
-
-- HiddenSource
-- TheShip
-
-(basically because they won't run on Linux...)
