@@ -3,7 +3,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo_info "Downloading game server files"
-~/go/bin/goodls -u "https://drive.google.com/file/d/1Scc997NmXfBZArIv8SeT0ae9Enn_uYkC/view?usp=sharing" 
+curl -sSL "https://drive.usercontent.google.com/download?id=15ikRfTc5TBJmSyWGo1H6_OzscPU9HGFT&confirm=y" -o "GoldenEye_Source_v5.0.6_full_server_windows.7z"
 
 echo_info "Extracting game server files"
 7z x "GoldenEye_Source_v5.0.6_full_server_windows.7z" -o"$DIR/server"
