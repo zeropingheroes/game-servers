@@ -10,52 +10,50 @@ Game server configs, launchers and downloaders for our LAN parties.
 1. Install dependencies
 
 ```bash
-sudo add-apt-repository multiverse -y
-sudo dpkg --add-architecture i386
 sudo apt update
-sudo apt install steamcmd \
-                 unzip \
-                 p7zip-full \
-                 golang-go
-go install github.com/tanaikech/goodls@latest
+sudo apt install unzip p7zip-full
 ```
 
 2. Clone the project
 
 ```bash
-git clone git@github.com:zeropingheroes/game-servers.git
+git clone git@github.com:zeropingheroes/game-servers
+cd game-servers
 ```
 
-3. Install the project
+3. Set username for SteamCMD
+
 ```bash
-cd game-servers
-./game-servers self-install
+cp .env.example .env
+nano .env
+```
+
+4. Install SteamCMD
+```bash
+./game-servers install SteamCMD
 ```
 
 ## Usage
 
-    $ ./game-servers
+    $ ./game-servers.sh
 
     Usage:
 
-      game-servers self-install
-      game-servers self-update
+      ./game-servers.sh install SteamCMD
+      ./game-servers.sh install <game1> [<game2>...]
 
-      game-servers install <game1> [<game2>...]
-      game-servers install all
+      ./game-servers.sh update <game1> [<game2>...]
+      ./game-servers.sh update all
 
-      game-servers update <game1> [<game2>...]
-      game-servers update all
+      ./game-servers.sh remove <game1> [<game2>...]
+      ./game-servers.sh remove all
 
-      game-servers remove <game1> [<game2>...]
-      game-servers remove all
+      ./game-servers.sh launch <game> [<launcher>]
+      ./game-servers.sh console <game> [<launcher>]
+      ./game-servers.sh restart <game> [<launcher>]
+      ./game-servers.sh stop <game> [<launcher>]
 
-      game-servers launch <game> [<launcher>]
-      game-servers console <game> [<launcher>]
-      game-servers restart <game> [<launcher>]
-      game-servers stop <game> [<launcher>]
-
-      game-servers status
+      ./game-servers.sh status
       
 ## Editing Config files
 

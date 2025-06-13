@@ -1,33 +1,13 @@
 #!/bin/bash
 
-# Do not modify anything below this point
-BLACK='\033[0m'
-GREEN='\033[0;32m'
-RED='\033[0;31m'
-ORANGE='\033[38;5;208m'
-
-CALLED_FROM_MAIN_SCRIPT=true
-
-function info {
-    MESSAGE=$1
-    printf "${GREEN}${MESSAGE}${BLACK}\n"
+echo_info() {
+    echo -e "\033[0;32m$*\033[0m";
 }
-
-function warning {
-    MESSAGE=$1
-    printf "${ORANGE}${MESSAGE}${BLACK}\n"
+echo_error() {
+    echo -e "\033[0;31m$*\033[0m" >&2;
 }
-
-function error {
-    MESSAGE=$1
-    printf "${RED}${MESSAGE}${BLACK}\n"
-}
-
-function check_if_installed {
-    if [[ ! -f  "$SCRIPT_DIR/self-install-completed" ]]; then
-        error "Please run ./game-servers self-install first"
-        exit 1
-    fi
+echo_warning(){
+    echo -e "\033[0;33m$*\033[0m";
 }
 
 function install_game {
@@ -38,7 +18,7 @@ function install_game {
     if [ -f $GAMES_DIR/$GAME_NAME/install.sh ]; then
 
         if [ -f "$GAMES_DIR/$GAME_NAME/installation-completed" ]; then
-            error "Game server '$GAME_NAME' already installed"
+            echo_error "'$GAME_NAME' already installed"
             if [ $IN_LOOP = true ]; then
                 continue
             else
@@ -46,17 +26,17 @@ function install_game {
             fi
         fi
 
-        info "Installing $GAME_NAME server"
+        echo_info "Installing $GAME_NAME"
         mkdir -p $GAMES_DIR/$GAME_NAME/server
         source $GAMES_DIR/$GAME_NAME/install.sh
 
-        info "Installing symlinks for config files"
+        echo_info "Installing symlinks for config files"
         cp -rs $GAMES_DIR/$GAME_NAME/configs/* $GAMES_DIR/$GAME_NAME/server
 
-        info "Successfully installed $GAME_NAME server"
+        echo_info "Successfully installed $GAME_NAME"
         touch "$GAMES_DIR/$GAME_NAME/installation-completed"
     else
-        error "Installer for game server '$GAME_NAME' not found"
+        echo_error "Installer for '$GAME_NAME' not found"
     fi
 }
 
@@ -66,7 +46,7 @@ function update_game {
     IN_LOOP=${3:-false}
 
     if [ ! -f "$GAMES_DIR/$GAME_NAME/installation-completed" ]; then
-        error "Game server '$GAME_NAME' not yet installed"
+        echo_error " '$GAME_NAME' not yet installed"
         if [ $IN_LOOP = true ]; then
             continue
         else
@@ -75,10 +55,10 @@ function update_game {
     fi
 
     if [ -f "$GAMES_DIR/$GAME_NAME/update.sh" ]; then
-        info "Updating $GAME_NAME server"
+        echo_info "Updating $GAME_NAME"
         source "$GAMES_DIR/$GAME_NAME/update.sh"
     else
-        error "Updater for game server '$GAME_NAME' not found"
+        echo_error "Updater for '$GAME_NAME' not found"
     fi
 }
 
@@ -87,11 +67,11 @@ function remove_game {
     GAMES_DIR=$2
 
     if [ -d "$GAMES_DIR/$GAME_NAME/server" ]; then
-        info "Removing $GAME_NAME server"
+        echo_info "Removing $GAME_NAME"
         rm -r "$GAMES_DIR/$GAME_NAME/server"
         rm "$GAMES_DIR/$GAME_NAME/installation-completed"
     else
-        error "Game server '$GAME_NAME' not found"
+        echo_error "'$GAME_NAME' not found"
     fi
 }
 
@@ -112,7 +92,7 @@ function update_steam_game {
     STEAM_USER=${3:-anonymous}
 
     if [ ! -d "$GAME_DIR" ]; then
-        error "Specified game directory does not exist"
+        echo_error "Specified game directory does not exist"
         exit 1
     fi
 
@@ -120,9 +100,9 @@ function update_steam_game {
 
     if [ $STEAM_USER = "anonymous" ]; then
         # Steam user not specified - download as anonymous 
-        /usr/games/steamcmd +force_install_dir "$GAME_DIR/server" +login $STEAM_USER +app_update "$APP_ID" validate +quit
+        ${SCRIPT_DIR}/SteamCMD/steamcmd.sh +force_install_dir "$GAME_DIR/server" +login $STEAM_USER +app_update "$APP_ID" validate +quit
     else
-        # Steam user specified - request a license for the game server
-        /usr/games/steamcmd +force_install_dir "$GAME_DIR/server" +login $STEAM_USER +app_license_request "$APP_ID" +app_update "$APP_ID" validate +quit
+        # Steam user specified - request a license
+        ${SCRIPT_DIR}/SteamCMD/steamcmd.sh +force_install_dir "$GAME_DIR/server" +login $STEAM_USER +app_license_request "$APP_ID" +app_update "$APP_ID" validate +quit
     fi
 }

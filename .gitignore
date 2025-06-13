@@ -1,6 +1,6 @@
-# Ignore steamcmd directory, except the downloader
+# Ignore steamcmd directory, except the installer
 SteamCMD/*
-!SteamCMD/download.sh
+!SteamCMD/install.sh
 
 # Ignore directories named "server" as they
 # are used for storing the game server binaries
@@ -10,5 +10,4 @@ SteamCMD/*
 *.log
 */logs/*
 
-self-install-completed
-installation-completed
+.env
