@@ -17,24 +17,16 @@ function install_game {
 
     if [ -f $GAMES_DIR/$GAME_NAME/install.sh ]; then
 
-        if [ -f "$GAMES_DIR/$GAME_NAME/installation-completed" ]; then
-            echo_error "'$GAME_NAME' already installed"
-            if [ $IN_LOOP = true ]; then
-                continue
-            else
-                exit 1
-            fi
-        fi
-
         echo_info "Installing $GAME_NAME"
         mkdir -p $GAMES_DIR/$GAME_NAME/server
         source $GAMES_DIR/$GAME_NAME/install.sh
 
-        echo_info "Installing symlinks for config files"
-        cp -rs $GAMES_DIR/$GAME_NAME/configs/* $GAMES_DIR/$GAME_NAME/server
+        if [ -d $GAMES_DIR/$GAME_NAME/configs ]; then
+            echo_info "Installing symlinks for config files"
+            cp -rs $GAMES_DIR/$GAME_NAME/configs/* $GAMES_DIR/$GAME_NAME/server
+        fi
 
         echo_info "Successfully installed $GAME_NAME"
-        touch "$GAMES_DIR/$GAME_NAME/installation-completed"
     else
         echo_error "Installer for '$GAME_NAME' not found"
     fi
@@ -44,15 +36,6 @@ function update_game {
     GAME_NAME=${1%/}
     GAMES_DIR=$2
     IN_LOOP=${3:-false}
-
-    if [ ! -f "$GAMES_DIR/$GAME_NAME/installation-completed" ]; then
-        echo_error " '$GAME_NAME' not yet installed"
-        if [ $IN_LOOP = true ]; then
-            continue
-        else
-            exit 1
-        fi
-    fi
 
     if [ -f "$GAMES_DIR/$GAME_NAME/update.sh" ]; then
         echo_info "Updating $GAME_NAME"
@@ -69,7 +52,6 @@ function remove_game {
     if [ -d "$GAMES_DIR/$GAME_NAME/server" ]; then
         echo_info "Removing $GAME_NAME"
         rm -r "$GAMES_DIR/$GAME_NAME/server"
-        rm "$GAMES_DIR/$GAME_NAME/installation-completed"
     else
         echo_error "'$GAME_NAME' not found"
     fi
@@ -99,7 +81,7 @@ function update_steam_game {
     mkdir -p "$GAME_DIR/server"
 
     if [ $STEAM_USER = "anonymous" ]; then
-        # Steam user not specified - download as anonymous 
+        # Steam user not specified - download as anonymous
         ${SCRIPT_DIR}/SteamCMD/steamcmd.sh +force_install_dir "$GAME_DIR/server" +login $STEAM_USER +app_update "$APP_ID" validate +quit
     else
         # Steam user specified - request a license
