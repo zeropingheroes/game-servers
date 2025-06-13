@@ -118,15 +118,12 @@ case $COMMAND in
         TMUX_LOG="$GAME_NAME/logs/$GAME_NAME-$LAUNCHER_NAME-tmux-error.log"
 
         if [ -f ${LAUNCH_SCRIPT} ]; then
-            echo_info "Launching $GAME_NAME server with \"$LAUNCHER_NAME\" launcher"
+            echo_info "Launching $GAME_NAME with \"$LAUNCHER_NAME\" launcher"
             if [ ! -d "$GAME_NAME/logs" ]; then
                 mkdir -p "$GAME_NAME/logs"
             fi
             tmux new-session -d -s "$GAME_NAME-$LAUNCHER_NAME" "${LAUNCH_SCRIPT}" 2> "${TMUX_LOG}"
-            echo_warning "To exit the console and leave the server running, press ctrl+b and then d"
-            echo_warning "If you press ctrl+c, the server will stop!"
-            read -n 1 -s -r -p "Press any key to open the console..."
-            echo
+            echo_tmux_warning
             tmux attach-session -t "$GAME_NAME-$LAUNCHER_NAME"
         else
             echo_error "Launcher \"$LAUNCHER_NAME\" for $GAME_NAME not found"
@@ -139,14 +136,11 @@ case $COMMAND in
         GAME_NAME=${2%/}
         LAUNCHER_NAME=${3:-default}
         if ( server_running $GAME_NAME $LAUNCHER_NAME ); then
-            echo_info "Opening console for $GAME_NAME ($LAUNCHER_NAME) server"
-            echo_warning "To exit the console and leave the server running, press ctrl+b and then d"
-            echo_warning "If you press ctrl+c, the server will stop!"
-            read -n 1 -s -r -p "Press any key to open the console..."
-            echo
+            echo_info "Opening console for $GAME_NAME ($LAUNCHER_NAME)"
+            echo_tmux_warning
             tmux attach-session -t "$GAME_NAME-$LAUNCHER_NAME"
         else
-            echo_error "Server $GAME_NAME-$LAUNCHER_NAME not running"
+            echo_error "$GAME_NAME-$LAUNCHER_NAME not running"
             exit
         fi
         ;;
@@ -173,7 +167,7 @@ case $COMMAND in
             echo_info "Stopping $GAME_NAME ($LAUNCHER_NAME) server"
             tmux send-keys "^c" -t "$GAME_NAME-$LAUNCHER_NAME"
         else
-            echo_error "Server $GAME_NAME-$LAUNCHER_NAME not running"
+            echo_error "$GAME_NAME-$LAUNCHER_NAME not running"
             exit
         fi
         ;;

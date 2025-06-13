@@ -106,3 +106,14 @@ function update_steam_game {
         ${SCRIPT_DIR}/SteamCMD/steamcmd.sh +force_install_dir "$GAME_DIR/server" +login $STEAM_USER +app_license_request "$APP_ID" +app_update "$APP_ID" validate +quit
     fi
 }
+
+function echo_tmux_warning {
+    echo_warning "Do not use CTRL+C to exit the console - the server will exit!"
+    echo_warning "Instead, press CTRL+B and then D, which will close the console but leave the game running"
+    read -p $'\e[32mOpen the console?\e[0m ' -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]
+    then
+        exit 0
+    fi
+}
