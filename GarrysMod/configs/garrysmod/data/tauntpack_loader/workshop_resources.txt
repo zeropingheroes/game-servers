@@ -1,6 +1,0 @@
-# Prop Hunt Tauntpack Loader - Workshop Resources
-#
-# Format:
-# <Workshop ID>;<Description>
-
-935701496
