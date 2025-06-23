@@ -11,7 +11,9 @@ Game server configs, launchers and downloaders for our LAN parties.
 
 ```bash
 sudo apt update
-sudo apt install unzip p7zip-full
+wget https://launchpad.net/ubuntu/+source/ncurses/6.4-2/+build/25522504/+files/libtinfo5_6.4-2_i386.deb
+sudo dpkg -i libtinfo5_6.4-2_i386.deb
+sudo apt install unzip p7zip-full lib32z1 libbz2-1.0:i386 lib32gcc-s1 lib32stdc++6 libtinfo5:i386 libcurl3-gnutls:i386 libsdl2-2.0-0:i386
 ```
 
 2. Clone the project
