@@ -1,2 +1,10 @@
 ph_restaurant
+ph_restaurant_small
+ph_islandhouse
+ph_two_restaurants
+ph_islandhouse_night
+ph_marketbattle_x2z
+ph_volcano
+ph_resortmadness
+
 
