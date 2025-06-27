@@ -92,7 +92,7 @@ function update_steam_game {
 function echo_tmux_warning {
     echo_warning "Do not use CTRL+C to exit the console - the server will exit!"
     echo_warning "Instead, press CTRL+B and then D, which will close the console but leave the game running"
-    read -p $'\e[32mOpen the console?\e[0m ' -n 1 -r
+    read -p $'\e[32mOpen the console? y/n \e[0m ' -n 1 -r
     echo
     if [[ ! $REPLY =~ ^[Yy]$ ]]
     then
