@@ -4,10 +4,12 @@ SteamCMD/*
 
 # Ignore directories named "server" as they
 # are used for storing the game server binaries
-**/server/**
+*/server/**
 
 # Ignore all log files
 *.log
 */logs/*
+
+*.swp
 
 .env
