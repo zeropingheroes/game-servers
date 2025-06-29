@@ -23,7 +23,7 @@ function install_game {
 
         if [ -d $GAMES_DIR/$GAME_NAME/configs ]; then
             echo_info "Installing symlinks for config files"
-            cp -rs $GAMES_DIR/$GAME_NAME/configs/* $GAMES_DIR/$GAME_NAME/server
+            cp -rfs $GAMES_DIR/$GAME_NAME/configs/* $GAMES_DIR/$GAME_NAME/server
         fi
 
         echo_info "Successfully installed $GAME_NAME"
