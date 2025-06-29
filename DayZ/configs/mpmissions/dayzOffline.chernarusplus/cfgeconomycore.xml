@@ -36,6 +36,10 @@ Do not forget to add attribute act="car", if root class represents moveable vehi
 		<default name="save_types_startup" value="true"/>
 	</defaults>
     <ce folder="custom">
-       <file name="globals_custom.xml" type="globals" />
+	<file name="1C-128-extra-types.xml" type="types" />
+	<file name="1C-128-extra-events.xml" type="events" />
+	<file name="1C-128-extra-cfgspawnabletypes.xml" type="spawnabletypes" />
+	<file name="1C-128-extra-messages.xml" type="messages" />
+	<file name="1C-128-extra-globals.xml" type="globals" />
     </ce> 
 </economycore>
