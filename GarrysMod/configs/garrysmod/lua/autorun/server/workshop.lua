@@ -11,3 +11,6 @@ resource.AddWorkshop("3510814016") -- ZPH Garry's Mod PropHunt X2Z Taunts
 
 -- Melombomber files
 resource.AddWorkshop("237537750")  -- Melonbomber
+
+-- The Hidden: I.R.I.S Edition files
+resource.AddWorkshop("3047746641")
