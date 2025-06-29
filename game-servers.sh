@@ -19,6 +19,8 @@ if [ $# == 0 ]; then
       game-servers update <game1> [<game2>...]
       game-servers update all
 
+      game-servers configure <game>
+
       game-servers remove <game1> [<game2>...]
       game-servers remove all
 
@@ -81,6 +83,13 @@ case $COMMAND in
             done
         fi
         ;;
+
+    "configure")
+
+        GAME_NAME=$2
+        configure_game $GAME_NAME $SCRIPT_DIR
+
+    ;;
 
     "remove")
 

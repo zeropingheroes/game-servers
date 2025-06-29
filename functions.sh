@@ -13,7 +13,6 @@ echo_warning(){
 function install_game {
     GAME_NAME=${1%/}
     GAMES_DIR=$2
-    IN_LOOP=${3:-false}
 
     if [ -f $GAMES_DIR/$GAME_NAME/install.sh ]; then
 
@@ -21,10 +20,7 @@ function install_game {
         mkdir -p $GAMES_DIR/$GAME_NAME/server
         source $GAMES_DIR/$GAME_NAME/install.sh
 
-        if [ -d $GAMES_DIR/$GAME_NAME/configs ]; then
-            echo_info "Installing symlinks for config files"
-            cp -rfs $GAMES_DIR/$GAME_NAME/configs/* $GAMES_DIR/$GAME_NAME/server
-        fi
+        configure_game "$GAME_NAME" "$GAMES_DIR"
 
         echo_info "Successfully installed $GAME_NAME"
     else
@@ -54,6 +50,18 @@ function remove_game {
         rm -r "$GAMES_DIR/$GAME_NAME/server"
     else
         echo_error "'$GAME_NAME' not found"
+    fi
+}
+
+function configure_game {
+    GAME_NAME=${1%/}
+    GAMES_DIR=$2
+
+    if [ -d $GAMES_DIR/$GAME_NAME/configs ]; then
+        echo_info "Installing symlinks for config files"
+        cp -rfvs $GAMES_DIR/$GAME_NAME/configs/* $GAMES_DIR/$GAME_NAME/server
+    else
+        echo_warning "No config files for game"
     fi
 }
 
