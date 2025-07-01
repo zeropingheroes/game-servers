@@ -18,4 +18,4 @@ sleep 4
 # Clear the cached config directory
 rm -rf ~/.local/share/TornBanner
 
-cd $DIR/../server/Binaries/Linux && ./UDKGameServer-Linux "aocffa-moor_p ?steamsockets -port=7777 -queryport=27015 -seekfreeloadingserver -configsubdir=ZPH"
+cd $DIR/../server/Binaries/Linux && ./UDKGameServer-Linux "AOCFFA-DiningHall_P ?steamsockets -port=7777 -queryport=27015 -seekfreeloadingserver -configsubdir=ZPH"
