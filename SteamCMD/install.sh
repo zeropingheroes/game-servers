@@ -32,4 +32,8 @@ mkdir -p "${DIR}/.steam/sdk32" "${DIR}/.steam/sdk64"
 cp "${DIR}/linux32/steamclient.so" "${DIR}/.steam/sdk32/steamclient.so"
 cp "${DIR}/linux64/steamclient.so" "${DIR}/.steam/sdk64/steamclient.so"
 
+mkdir -p ~/.steam/sdk32/
+cp "${DIR}/linux32/steamclient.so" "~/.steam/sdk32/steamclient.so"
+cp "${DIR}/linux64/steamclient.so" "~/.steam/sdk64/steamclient.so"
+
 echo_info "Installation complete!"
