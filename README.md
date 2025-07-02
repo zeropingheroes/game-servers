@@ -23,7 +23,7 @@ git clone git@github.com:zeropingheroes/game-servers
 cd game-servers
 ```
 
-3. Set username for SteamCMD
+3. Set username for SteamCMD and RCON password for servers
 
 ```bash
 cp .env.example .env
@@ -56,7 +56,7 @@ nano .env
       ./game-servers.sh stop <game> [<launcher>]
 
       ./game-servers.sh status
-      
+
 ## Editing Config files
 
 During installation, config files in each game server's `configs` directory are symlinked into the game server's folder, so you can edit the files in the `configs` directory, and the game server will pick up the changes, and the changes can be put into Git.
