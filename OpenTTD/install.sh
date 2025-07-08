@@ -4,16 +4,21 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 source $DIR/../functions.sh
 
-echo_info "Downloading game server files"
-curl -L "https://binaries.openttd.org/releases/1.7.1/openttd-1.7.1-linux-generic-amd64.tar.gz" | tar -xvz -C "$DIR/server" --strip 1
+mkdir -p "$DIR/server"
 
-echo_info "Downloading graphics set"
-curl -L "https://binaries.openttd.org/extra/opengfx/0.5.2/opengfx-0.5.2-all.zip" > "$DIR/server/opengfx-0.5.2-all.zip"
+if [ ! -f "openttd-14.1-linux-generic-amd64.tar.xz" ]; then
+    echo_info "Downloading game server files"
+    curl -L "https://cdn.openttd.org/openttd-releases/14.1/openttd-14.1-linux-generic-amd64.tar.xz" -o "openttd-14.1-linux-generic-amd64.tar.xz"
+fi
 
-echo_info "Extracting graphics set"
-unzip -q "$DIR/server/opengfx-0.5.2-all.zip" -d "$DIR/server"
-tar -xf "$DIR/server/opengfx-0.5.2.tar" -C "$DIR/server/baseset" --strip 1
+echo_info "Extracting game server files"
+tar xf openttd-14.1-linux-generic-amd64.tar.xz -C "$DIR/server" --strip 1
 
-echo_info "Removing temporary files"
-rm "$DIR/server/opengfx-0.5.2-all.zip"
-rm "$DIR/server/opengfx-0.5.2.tar"
+if [ ! -f "$DIR/opengfx-7.1-all.zip" ]; then
+    echo_info "Downloading graphics set"
+    curl -L "https://cdn.openttd.org/opengfx-releases/7.1/opengfx-7.1-all.zip" -o opengfx-7.1-all.zip
+fi
+
+echo_info "Extracting graphics sets"
+unzip -o opengfx-7.1-all.zip -d "$DIR"
+tar xf "opengfx-7.1.tar" -C "$DIR/server/baseset" --strip 1

@@ -11,5 +11,8 @@ SteamCMD/*
 */logs/*
 
 *.swp
+*.xz
+*.zip
+*.tar
 
 .env
