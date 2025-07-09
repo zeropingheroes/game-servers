@@ -2,4 +2,4 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-cd $DIR/../server && ./openttd -D -c server-zph.cfg
+cd $DIR/../server && ./openttd -D -x
