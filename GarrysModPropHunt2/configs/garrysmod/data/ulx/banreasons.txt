@@ -1,0 +1,8 @@
+; This file is used to store default reasons for kicking and banning users.
+; These reasons show up in console autocomplete and in XGUI dropdowns.
+Spammer
+Crashed server
+Minge
+Griefer
+Foul language
+Disobeying the rules
