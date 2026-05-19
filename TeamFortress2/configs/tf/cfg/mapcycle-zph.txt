@@ -1,3 +1,9 @@
+plr_matterhorn
+ctf_sidewinder
+koth_winter_ridge
+cppl_gavle
+2koth_abbey
+ctf_pressure
 koth_harvest_final
 pl_frontier_final
 cp_5gorge
