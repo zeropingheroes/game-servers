@@ -7,11 +7,12 @@
             "name" "mg_zph_wingman"
             "maps"
             {
+                "de_debris" ""
+                "de_eldorado" ""
                 "de_inferno" ""
                 "de_nuke" ""
                 "de_overpass" ""
                 "de_poseidon" ""
-                "de_sanctum" ""
                 "de_vertigo" ""
             }
         }
@@ -20,9 +21,9 @@
             "name" "mg_zph_casual_hostage"
             "maps"
             {
-                "cs_alpine" ""
                 "cs_italy" ""
                 "cs_office" ""
+                "cs_shelter" ""
             }
         }
         "mg_zph_deathmatch"
@@ -30,26 +31,22 @@
             "name" "mg_zph_deathmatch"
             "maps"
             {
-                "ar_baggage" ""
-                "ar_pool_day" ""
-                "ar_shoots" ""
-                "ar_shoots_night" ""
-                "cs_alpine" ""
                 "cs_italy" ""
                 "cs_office" ""
+                "cs_shelter" ""
                 "de_ancient" ""
                 "de_ancient_night" ""
                 "de_anubis" ""
+                "de_boulder" ""
                 "de_cache" ""
                 "de_dust2" ""
+                "de_fachwerk" ""
                 "de_inferno" ""
                 "de_mirage" ""
                 "de_nuke" ""
                 "de_overpass" ""
-                "de_stronghold" ""
                 "de_train" ""
                 "de_vertigo" ""
-                "de_warden" ""
             }
         }
         "mg_zph_casual_demolition"
@@ -60,16 +57,27 @@
                 "de_ancient" ""
                 "de_ancient_night" ""
                 "de_anubis" ""
+                "de_boulder" ""
                 "de_cache" ""
                 "de_dust2" ""
+                "de_fachwerk" ""
                 "de_inferno" ""
                 "de_mirage" ""
                 "de_nuke" ""
                 "de_overpass" ""
-                "de_stronghold" ""
                 "de_train" ""
                 "de_vertigo" ""
-                "de_warden" ""
+            }
+        }
+        "mg_zph_armsrace"
+        {
+            "name" "mg_zph_armsrace"
+            "maps"
+            {
+                "ar_baggage" ""
+                "ar_pool_day" ""
+                "ar_shoots" ""
+                "ar_shoots_night" ""
             }
         }
     }
