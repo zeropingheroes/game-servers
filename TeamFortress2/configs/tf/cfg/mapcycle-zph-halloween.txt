@@ -1,3 +1,8 @@
+cp_holyhell
+pl_aridpass_event
+koth_trainsawlaser
+cp_wildcat_event
+ctf_medi_evil
 koth_lakeside_event
 pl_hasslecastle
 cp_freaky_fair
